@@ -1,7 +1,17 @@
+import { Suspense } from "react";
 import "./App.css";
+import { Routes } from "./Routes";
+import { Toaster } from "sonner";
 
 function App() {
-  return <div>Hello world!</div>;
+  return (
+    <>
+      <Suspense fallback={null}>
+        <Routes />
+      </Suspense>
+      <Toaster />
+    </>
+  );
 }
 
 export default App;
