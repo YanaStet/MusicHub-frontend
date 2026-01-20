@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import "./App.css";
 import { Routes } from "./Routes";
-import { Toaster } from "sonner";
+import { Toaster } from "@/shared/shadcn-ui/sonner";
 
 function App() {
   return (
