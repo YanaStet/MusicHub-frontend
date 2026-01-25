@@ -558,7 +558,7 @@ export const Filters = () => {
           <div
             className={`relative flex flex-wrap gap-2 transition-[max-height] duration-500 [scrollbar-gutter:stable] custom-scrollbar ${
               isSizeOpen
-                ? "max-h-70 overflow-y-auto"
+                ? "max-h-60 overflow-y-auto"
                 : "max-h-40 overflow-hidden"
             }`}
           >
@@ -593,11 +593,11 @@ export const Filters = () => {
         </div>
 
         <Typography variant="body1">Tags</Typography>
-        <div className="w-full mt-2 mb-16 flex flex-col gap-2">
+        <div className="w-full mt-2  flex flex-col gap-2">
           <div
             className={`relative flex flex-wrap gap-2 overflow-hidden transition-[max-height] duration-500 [scrollbar-gutter:stable] custom-scrollbar ${
               isTagsOpen
-                ? "max-h-70 overflow-y-auto"
+                ? "max-h-60 overflow-y-auto"
                 : "max-h-40 overflow-hidden"
             }`}
           >
