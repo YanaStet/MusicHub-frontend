@@ -10,31 +10,37 @@ import { ProfilePageLazy } from "@/pages/profile-page/Profile.page.lazy";
 import { MyProfilePageLazy } from "@/pages/my-profile-page/MyProfile.page.lazy";
 import { MusicPageLazy } from "@/pages/music-page/Music.page.lazy";
 import { SubscriptionPageLazy } from "@/pages/subscription-page/Subscription.page.lazy";
+import { AuthorizedLayout } from "./AuthorizedLayout";
 
 const routes: RouteObject[] = [
   {
-    element: <HomePageLazy />,
-    path: ROUTE_PATHS.HOME,
-  },
-  {
-    element: <AuthPageLazy />,
-    path: ROUTE_PATHS.AUTH,
-  },
-  {
-    element: <ProfilePageLazy />,
-    path: ROUTE_PATHS.PROFILE,
-  },
-  {
-    element: <MyProfilePageLazy />,
-    path: ROUTE_PATHS.MY_PROFILE,
-  },
-  {
-    element: <MusicPageLazy />,
-    path: ROUTE_PATHS.MUSIC,
-  },
-  {
-    element: <SubscriptionPageLazy />,
-    path: ROUTE_PATHS.SUBSCRIPTION,
+    element: <AuthorizedLayout />,
+    children: [
+      {
+        element: <HomePageLazy />,
+        path: ROUTE_PATHS.HOME,
+      },
+      {
+        element: <AuthPageLazy />,
+        path: ROUTE_PATHS.AUTH,
+      },
+      {
+        element: <ProfilePageLazy />,
+        path: ROUTE_PATHS.PROFILE,
+      },
+      {
+        element: <MyProfilePageLazy />,
+        path: ROUTE_PATHS.MY_PROFILE,
+      },
+      {
+        element: <MusicPageLazy />,
+        path: ROUTE_PATHS.MUSIC,
+      },
+      {
+        element: <SubscriptionPageLazy />,
+        path: ROUTE_PATHS.SUBSCRIPTION,
+      },
+    ],
   },
 ];
 
