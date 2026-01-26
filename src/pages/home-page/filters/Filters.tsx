@@ -550,16 +550,16 @@ export const Filters = () => {
   };
 
   return (
-    <div className="w-80">
+    <div className="w-60 2xl:w-80">
       <Typography variant="h2">Filters</Typography>
       <div className="mt-8">
         <Typography variant="body1">Time signature</Typography>
-        <div className="w-full mt-2 mb-16 flex flex-col gap-2">
+        <div className="w-full mt-2 mb-16 flex flex-col gap-2 relative">
           <div
-            className={`relative flex flex-wrap gap-2 transition-[max-height] duration-500 [scrollbar-gutter:stable] custom-scrollbar ${
+            className={`flex flex-wrap gap-2 transition-[max-height] duration-500 [scrollbar-gutter:stable] custom-scrollbar ${
               isSizeOpen
-                ? "max-h-60 overflow-y-auto"
-                : "max-h-40 overflow-hidden"
+                ? "max-h-50 2xl:max-h-70 overflow-y-auto"
+                : "max-h-25 2xl:max-h-40 overflow-hidden"
             }`}
           >
             {sizes.map((size) => (
@@ -569,15 +569,15 @@ export const Filters = () => {
                 handleSelect={handleSelectSize}
               />
             ))}
-
-            {sizes.length > 15 && (
-              <div
-                className={`absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-neutral-900 to-transparent transition-opacity duration-300 flex justify-center items-end pb-2 ${
-                  isSizeOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-                }`}
-              />
-            )}
           </div>
+
+          {sizes.length > 15 && (
+            <div
+              className={`absolute inset-x-0 bottom-4 h-20 bg-linear-to-t from-neutral-900 to-transparent transition-opacity duration-300 flex justify-center items-end pb-2 ${
+                isSizeOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+              }`}
+            />
+          )}
 
           {sizes.length > 15 && (
             <div className="w-full flex justify-center mt-1">
@@ -593,12 +593,12 @@ export const Filters = () => {
         </div>
 
         <Typography variant="body1">Tags</Typography>
-        <div className="w-full mt-2  flex flex-col gap-2">
+        <div className="w-full mt-2 relative flex flex-col gap-2">
           <div
-            className={`relative flex flex-wrap gap-2 overflow-hidden transition-[max-height] duration-500 [scrollbar-gutter:stable] custom-scrollbar ${
+            className={`flex flex-wrap gap-2 overflow-hidden transition-[max-height] duration-500 [scrollbar-gutter:stable] custom-scrollbar ${
               isTagsOpen
-                ? "max-h-60 overflow-y-auto"
-                : "max-h-40 overflow-hidden"
+                ? "max-h-50 2xl:max-h-70 overflow-y-auto"
+                : "max-h-25 2xl:max-h-40 overflow-hidden"
             }`}
           >
             {tags.map((tag) => (
@@ -608,15 +608,15 @@ export const Filters = () => {
                 handleSelect={handleSelectTag}
               />
             ))}
-
-            {tags.length > 15 && (
-              <div
-                className={`absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-neutral-900 to-transparent transition-opacity duration-300 flex justify-center items-end pb-2 ${
-                  isTagsOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-                }`}
-              />
-            )}
           </div>
+
+          {tags.length > 15 && (
+            <div
+              className={`absolute inset-x-0 bottom-4 h-20 bg-linear-to-t from-neutral-900 to-transparent transition-opacity duration-300 flex justify-center items-end pb-2 ${
+                isTagsOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+              }`}
+            />
+          )}
 
           {tags.length > 15 && (
             <div className="w-full flex justify-center mt-1">
