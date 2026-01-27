@@ -1,6 +1,6 @@
 import { Typography } from "@/shared/shadcn-ui/typography";
 import { useState } from "react";
-import { SizeBadge, TagBadge } from "./Badge";
+import { Badge } from "./Badge";
 import { Icon } from "@/shared/shadcn-ui/icon";
 
 export type TagDisplay = {
@@ -563,7 +563,7 @@ export const Filters = () => {
             }`}
           >
             {sizes.map((size) => (
-              <SizeBadge
+              <Badge
                 value={size}
                 key={size.id}
                 handleSelect={handleSelectSize}
@@ -602,7 +602,7 @@ export const Filters = () => {
             }`}
           >
             {tags.map((tag) => (
-              <TagBadge
+              <Badge
                 value={tag}
                 key={tag.id}
                 handleSelect={handleSelectTag}

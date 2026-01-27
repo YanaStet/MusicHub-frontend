@@ -11,6 +11,7 @@ import { MyProfilePageLazy } from "@/pages/my-profile-page/MyProfile.page.lazy";
 import { MusicPageLazy } from "@/pages/music-page/Music.page.lazy";
 import { SubscriptionPageLazy } from "@/pages/subscription-page/Subscription.page.lazy";
 import { AuthorizedLayout } from "./AuthorizedLayout";
+import { UnauthorizedLayout } from "./UnauthorizedLayout";
 
 const routes: RouteObject[] = [
   {
@@ -20,10 +21,7 @@ const routes: RouteObject[] = [
         element: <HomePageLazy />,
         path: ROUTE_PATHS.HOME,
       },
-      {
-        element: <AuthPageLazy />,
-        path: ROUTE_PATHS.AUTH,
-      },
+
       {
         element: <ProfilePageLazy />,
         path: ROUTE_PATHS.PROFILE,
@@ -39,6 +37,15 @@ const routes: RouteObject[] = [
       {
         element: <SubscriptionPageLazy />,
         path: ROUTE_PATHS.SUBSCRIPTION,
+      },
+    ],
+  },
+  {
+    element: <UnauthorizedLayout />,
+    children: [
+      {
+        element: <AuthPageLazy />,
+        path: ROUTE_PATHS.AUTH,
       },
     ],
   },
