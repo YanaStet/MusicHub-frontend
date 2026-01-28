@@ -1,7 +1,8 @@
 import { Typography } from "@/shared/shadcn-ui/typography";
-import { useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { Badge } from "./Badge";
 import { Icon } from "@/shared/shadcn-ui/icon";
+import type { NoteParams } from "@/entities/note/model";
 
 export type TagDisplay = {
   id: number;
@@ -17,12 +18,12 @@ export type SizeDisplay = {
 
 const tag: TagDisplay[] = [
   {
-    id: 1,
-    name: "Vivo",
-    isActive: true,
+    id: 2,
+    name: "Guitar",
+    isActive: false,
   },
   {
-    id: 2,
+    id: 5,
     name: "Classic",
     isActive: false,
   },
@@ -37,183 +38,8 @@ const tag: TagDisplay[] = [
     isActive: false,
   },
   {
-    id: 5,
-    name: "Funny",
-    isActive: false,
-  },
-  {
-    id: 6,
-    name: "Pop",
-    isActive: false,
-  },
-  {
-    id: 7,
-    name: "Rock",
-    isActive: false,
-  },
-  {
     id: 1,
-    name: "Vivo",
-    isActive: true,
-  },
-  {
-    id: 2,
-    name: "Classic",
-    isActive: false,
-  },
-  {
-    id: 3,
-    name: "Jazz",
-    isActive: false,
-  },
-  {
-    id: 4,
-    name: "Cool",
-    isActive: false,
-  },
-  {
-    id: 5,
-    name: "Funny",
-    isActive: false,
-  },
-  {
-    id: 6,
-    name: "Pop",
-    isActive: false,
-  },
-  {
-    id: 7,
-    name: "Rock",
-    isActive: false,
-  },
-  {
-    id: 1,
-    name: "Vivo",
-    isActive: true,
-  },
-  {
-    id: 2,
-    name: "Classic",
-    isActive: false,
-  },
-  {
-    id: 3,
-    name: "Jazz",
-    isActive: false,
-  },
-  {
-    id: 4,
-    name: "Cool",
-    isActive: false,
-  },
-  {
-    id: 5,
-    name: "Funny",
-    isActive: false,
-  },
-  {
-    id: 6,
-    name: "Pop",
-    isActive: false,
-  },
-  {
-    id: 7,
-    name: "Rock",
-    isActive: false,
-  },
-  {
-    id: 1,
-    name: "Vivo",
-    isActive: true,
-  },
-  {
-    id: 2,
-    name: "Classic",
-    isActive: false,
-  },
-  {
-    id: 3,
-    name: "Jazz",
-    isActive: false,
-  },
-  {
-    id: 4,
-    name: "Cool",
-    isActive: false,
-  },
-  {
-    id: 5,
-    name: "Funny",
-    isActive: false,
-  },
-  {
-    id: 6,
-    name: "Pop",
-    isActive: false,
-  },
-  {
-    id: 7,
-    name: "Rock",
-    isActive: false,
-  },
-  {
-    id: 1,
-    name: "Vivo",
-    isActive: true,
-  },
-  {
-    id: 2,
-    name: "Classic",
-    isActive: false,
-  },
-  {
-    id: 3,
-    name: "Jazz",
-    isActive: false,
-  },
-  {
-    id: 4,
-    name: "Cool",
-    isActive: false,
-  },
-  {
-    id: 5,
-    name: "Funny",
-    isActive: false,
-  },
-  {
-    id: 6,
-    name: "Pop",
-    isActive: false,
-  },
-  {
-    id: 7,
-    name: "Rock",
-    isActive: false,
-  },
-  {
-    id: 1,
-    name: "Vivo",
-    isActive: true,
-  },
-  {
-    id: 2,
-    name: "Classic",
-    isActive: false,
-  },
-  {
-    id: 3,
-    name: "Jazz",
-    isActive: false,
-  },
-  {
-    id: 4,
-    name: "Cool",
-    isActive: false,
-  },
-  {
-    id: 5,
-    name: "Funny",
+    name: "Piano",
     isActive: false,
   },
   {
@@ -521,7 +347,11 @@ const size: SizeDisplay[] = [
   },
 ];
 
-export const Filters = () => {
+type FiltersProps = {
+  setNoteParams: Dispatch<SetStateAction<NoteParams>>;
+};
+
+export const Filters = ({ setNoteParams }: FiltersProps) => {
   const [tags, setTags] = useState<TagDisplay[]>(tag);
   const [sizes, setSizes] = useState<SizeDisplay[]>(size);
   const [isSizeOpen, setIsSizeOpen] = useState(false);
@@ -549,6 +379,17 @@ export const Filters = () => {
     setSizes(newSizes);
   };
 
+  useEffect(() => {
+    setNoteParams((prevParams: NoteParams) => {
+      return {
+        ...prevParams,
+        tagsIds: tags.filter((t) => t.isActive).map((t) => t.id) || [],
+        timeSignaturesIds:
+          sizes.filter((s) => s.isActive).map((s) => s.id) || [],
+      };
+    });
+  }, [tags, sizes]);
+
   return (
     <div className="w-60 2xl:w-80">
       <Typography variant="h2">Filters</Typography>
@@ -562,34 +403,26 @@ export const Filters = () => {
                 : "max-h-25 2xl:max-h-40 overflow-hidden"
             }`}
           >
-            {sizes.map((size) => (
-              <Badge
-                value={size}
-                key={size.id}
-                handleSelect={handleSelectSize}
-              />
+            {sizes.map((size, i) => (
+              <Badge value={size} key={i} handleSelect={handleSelectSize} />
             ))}
           </div>
 
-          {sizes.length > 15 && (
-            <div
-              className={`absolute inset-x-0 bottom-4 h-20 bg-linear-to-t from-neutral-900 to-transparent transition-opacity duration-300 flex justify-center items-end pb-2 ${
-                isSizeOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-              }`}
-            />
-          )}
+          <div
+            className={`absolute inset-x-0 bottom-4 h-20 bg-linear-to-t from-neutral-900 to-transparent transition-opacity duration-300 flex justify-center items-end pb-2 ${
+              isSizeOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+          />
 
-          {sizes.length > 15 && (
-            <div className="w-full flex justify-center mt-1">
-              <Icon
-                name="Arrow"
-                className={`w-3 cursor-pointer transition-transform duration-300 ${
-                  isSizeOpen ? "rotate-0" : "rotate-180"
-                }`}
-                onClick={() => setIsSizeOpen(!isSizeOpen)}
-              />
-            </div>
-          )}
+          <div className="w-full flex justify-center mt-1">
+            <Icon
+              name="Arrow"
+              className={`w-3 cursor-pointer transition-transform duration-300 ${
+                isSizeOpen ? "rotate-0" : "rotate-180"
+              }`}
+              onClick={() => setIsSizeOpen(!isSizeOpen)}
+            />
+          </div>
         </div>
 
         <Typography variant="body1">Tags</Typography>
@@ -601,34 +434,26 @@ export const Filters = () => {
                 : "max-h-25 2xl:max-h-40 overflow-hidden"
             }`}
           >
-            {tags.map((tag) => (
-              <Badge
-                value={tag}
-                key={tag.id}
-                handleSelect={handleSelectTag}
-              />
+            {tags.map((tag, i) => (
+              <Badge value={tag} key={i} handleSelect={handleSelectTag} />
             ))}
           </div>
 
-          {tags.length > 15 && (
-            <div
-              className={`absolute inset-x-0 bottom-4 h-20 bg-linear-to-t from-neutral-900 to-transparent transition-opacity duration-300 flex justify-center items-end pb-2 ${
-                isTagsOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-              }`}
-            />
-          )}
+          <div
+            className={`absolute inset-x-0 bottom-4 h-20 bg-linear-to-t from-neutral-900 to-transparent transition-opacity duration-300 flex justify-center items-end pb-2 ${
+              isTagsOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+          />
 
-          {tags.length > 15 && (
-            <div className="w-full flex justify-center mt-1">
-              <Icon
-                name="Arrow"
-                className={`w-3 cursor-pointer transition-transform duration-300 ${
-                  isTagsOpen ? "rotate-0" : "rotate-180"
-                }`}
-                onClick={() => setIsTagsOpen(!isTagsOpen)}
-              />
-            </div>
-          )}
+          <div className="w-full flex justify-center mt-1">
+            <Icon
+              name="Arrow"
+              className={`w-3 cursor-pointer transition-transform duration-300 ${
+                isTagsOpen ? "rotate-0" : "rotate-180"
+              }`}
+              onClick={() => setIsTagsOpen(!isTagsOpen)}
+            />
+          </div>
         </div>
       </div>
     </div>
