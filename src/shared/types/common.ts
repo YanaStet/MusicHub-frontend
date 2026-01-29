@@ -7,3 +7,8 @@ export type PaginatedData<T> = {
     limit: number;
   };
 };
+
+export type InfinityQueryResponse<T> = {
+  pages: T[];
+  pageParams: number[];
+};

@@ -1,5 +1,10 @@
 import { Badge } from "@/shared/shadcn-ui/badge";
-import { Card, CardHeader, CardTitle } from "@/shared/shadcn-ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/shared/shadcn-ui/card";
 import musicImage from "./image 1.jpg";
 import { generatePath, useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/shared/utils/routes";
@@ -27,6 +32,9 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
       >
         <CardHeader className="px-6 text-white">
           <CardTitle>{music.title}</CardTitle>
+          <CardDescription className="max-w-full truncate">
+            {music.description}
+          </CardDescription>
         </CardHeader>
         <div className="w-55 h-30 2xl:w-79 2xl:h-52 overflow-y-hidden">
           <img src={musicImage} alt="Photo" className="object-cover" />

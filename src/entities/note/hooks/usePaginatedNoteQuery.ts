@@ -16,7 +16,7 @@ export function usePaginatedNoteQuery<TData = NotePaginatedResponse>(
   options?: Partial<UseQueryOptions<NotePaginatedResponse, AxiosError, TData>>,
 ): UseQueryResult<TData> {
   return useQuery<NotePaginatedResponse, AxiosError, TData>({
-    queryKey: [NOTE_CONSTANTS.GET_PAGINATED_NOTES],
+    queryKey: [NOTE_CONSTANTS.GET_PAGINATED_NOTES, params],
     queryFn: () => noteService.getNotesPaginated(params),
     ...options,
   });
