@@ -12,3 +12,8 @@ export type InfinityQueryResponse<T> = {
   pages: T[];
   pageParams: number[];
 };
+
+export type Params = {
+  page: number;
+  limit: number;
+};

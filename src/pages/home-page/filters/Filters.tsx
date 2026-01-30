@@ -12,6 +12,7 @@ import { Icon } from "@/shared/shadcn-ui/icon";
 import type { NoteParams } from "@/entities/note/model";
 import { timeSignatureHooks } from "@/entities/time-signature/hooks";
 import { InfinityList } from "@/shared/custom-ui/InfinityList";
+import { tagHooks } from "@/entities/tag/hooks";
 
 export type TagDisplay = {
   id: number;
@@ -25,50 +26,12 @@ export type SizeDisplay = {
   isActive: boolean;
 };
 
-const tag: TagDisplay[] = [
-  {
-    id: 2,
-    name: "Guitar",
-    isActive: false,
-  },
-  {
-    id: 5,
-    name: "Classic",
-    isActive: false,
-  },
-  {
-    id: 3,
-    name: "Jazz",
-    isActive: false,
-  },
-  {
-    id: 4,
-    name: "Cool",
-    isActive: false,
-  },
-  {
-    id: 1,
-    name: "Piano",
-    isActive: false,
-  },
-  {
-    id: 6,
-    name: "Pop",
-    isActive: false,
-  },
-  {
-    id: 7,
-    name: "Rock",
-    isActive: false,
-  },
-];
-
 type FiltersProps = {
   setNoteParams: Dispatch<SetStateAction<NoteParams>>;
 };
 
 export const Filters = ({ setNoteParams }: FiltersProps) => {
-  const [tags, setTags] = useState<TagDisplay[]>(tag);
+  const [tags, setTags] = useState<TagDisplay[]>([]);
   const [sizes, setSizes] = useState<SizeDisplay[]>([]);
   const [isSizeExpanded, setIsSizeExpanded] = useState(false);
   const [showSizeToggle, setShowSizeToggle] = useState(false);
@@ -82,10 +45,20 @@ export const Filters = ({ setNoteParams }: FiltersProps) => {
 
   const {
     data: size,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
+    hasNextPage: hasNextPageSize,
+    fetchNextPage: fetchNextPageSize,
+    isFetchingNextPage: isFetchingNextPageSize,
   } = timeSignatureHooks.useTimeSignaturesInfinityQuery({
+    page: 1,
+    limit: 10,
+  });
+
+  const {
+    data: tag,
+    hasNextPage: hasNextPageTag,
+    fetchNextPage: fetchNextPageTag,
+    isFetchingNextPage: isFetchingNextPageTag,
+  } = tagHooks.useTagsInfinityQuery({
     page: 1,
     limit: 10,
   });
@@ -132,6 +105,15 @@ export const Filters = ({ setNoteParams }: FiltersProps) => {
     setSizes(s);
   }, [size]);
 
+  useEffect(() => {
+    let t: TagDisplay[] =
+      tag?.pages
+        .flatMap((page) => page.data)
+        .map((t) => ({ ...t, isActive: false })) || [];
+
+    setTags(t);
+  }, [tag]);
+
   useLayoutEffect(() => {
     if (contentRefSize.current) {
       const isOverflowing =
@@ -141,9 +123,9 @@ export const Filters = ({ setNoteParams }: FiltersProps) => {
   }, [size]);
 
   useLayoutEffect(() => {
-    if (contentRefSize.current) {
+    if (contentRefTag.current) {
       const isOverflowing =
-        contentRefSize.current.scrollHeight > COLLAPSED_HEIGHT;
+        contentRefTag.current.scrollHeight > COLLAPSED_HEIGHT;
       setShowTagToggle(isOverflowing);
     }
   }, [tag]);
@@ -163,9 +145,9 @@ export const Filters = ({ setNoteParams }: FiltersProps) => {
             ref={contentRefSize}
           >
             <InfinityList
-              fetchNextPage={fetchNextPage}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
+              fetchNextPage={fetchNextPageSize}
+              hasNextPage={hasNextPageSize}
+              isFetchingNextPage={isFetchingNextPageSize}
               className="gap-2!"
             >
               {sizes.map((size, i) => (
@@ -208,9 +190,16 @@ export const Filters = ({ setNoteParams }: FiltersProps) => {
             }`}
             ref={contentRefTag}
           >
-            {tags.map((tag, i) => (
-              <Badge value={tag} key={i} handleSelect={handleSelectTag} />
-            ))}
+            <InfinityList
+              fetchNextPage={fetchNextPageTag}
+              hasNextPage={hasNextPageTag}
+              isFetchingNextPage={isFetchingNextPageTag}
+              className="gap-2!"
+            >
+              {tags.map((tag, i) => (
+                <Badge value={tag} key={i} handleSelect={handleSelectTag} />
+              ))}
+            </InfinityList>
           </div>
 
           {showTagToggle && (

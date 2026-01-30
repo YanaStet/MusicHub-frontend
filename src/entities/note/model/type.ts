@@ -35,4 +35,6 @@ export type NoteParams = {
   limit: number;
   tagsIds: number[];
   timeSignaturesIds: number[];
+  sizes: string[];
+  query: string | null;
 };
