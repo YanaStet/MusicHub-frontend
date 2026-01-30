@@ -6,6 +6,9 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { TagDisplay } from "../home-page/filters/Filters";
 import { Badge } from "../home-page/filters/Badge";
+import PdfViewer from "./music-pdf/MusicPdf";
+
+import samplePdf from "./music-pdf/sample.pdf";
 
 const tag: TagDisplay[] = [
   {
@@ -73,7 +76,7 @@ export const MusicPage = () => {
   }, [tag]);
 
   return (
-    <div className="px-25 py-10">
+    <div className="px-25 py-10 flex gap-10">
       <div className="w-60 2xl:w-80">
         <Typography variant="h2">Mutter</Typography>
 
@@ -166,6 +169,10 @@ export const MusicPage = () => {
             </>
           )}
         </div>
+      </div>
+
+      <div>
+        <PdfViewer fileUrl={samplePdf} />
       </div>
     </div>
   );

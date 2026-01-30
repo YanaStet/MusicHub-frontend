@@ -6,6 +6,7 @@ import Cross from "./svg/cross.svg?react";
 import HalfStar from "./svg/half-star.svg?react";
 import Hamburger from "./svg/hamburger.svg?react";
 import Logo from "./svg/logo.svg?react";
+import LongArrow from "./svg/long-arrow.svg?react";
 import Plus from "./svg/plus.svg?react";
 import Similar from "./svg/similar.svg?react";
 import Star from "./svg/star.svg?react";
@@ -20,6 +21,7 @@ export const Icons = {
   HalfStar,
   Hamburger,
   Logo,
+  LongArrow,
   Plus,
   Similar,
   Star,
