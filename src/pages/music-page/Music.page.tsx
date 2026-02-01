@@ -6,9 +6,12 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { TagDisplay } from "../home-page/filters/Filters";
 import { Badge } from "../home-page/filters/Badge";
-import PdfViewer from "./music-pdf/MusicPdf";
-
+import PdfViewer from "./music-pdf/PdfReader";
+import audio from "./audio-sample.mp3";
 import samplePdf from "./music-pdf/sample.pdf";
+import { Button } from "@/shared/shadcn-ui/button";
+import { Pause } from "lucide-react";
+import { Slider } from "@/shared/shadcn-ui/slider";
 
 const tag: TagDisplay[] = [
   {
@@ -55,11 +58,56 @@ export const MusicPage = () => {
   const [showTagsToggle, setShowTagsToggle] = useState(false);
   const [isTagsExpanded, setIsTagsExpanded] = useState(false);
   const tagsRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   const descr =
     " Description DescriptionDescription Description Description Description Description Description Description DescriptionDescription Description Description Description Description Description Description Description Description DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescriptionDescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription  DescriptionDescription Description Description Description Description Description Description Description";
 
   const COLLAPSED_HEIGHT = 160;
+
+  const formatTime = (time: number) => {
+    if (isNaN(time)) return "00:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const onTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const onLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const onSliderChange = (value: number[]) => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.currentTime = value[0];
+      setCurrentTime(value[0]);
+    }
+  };
 
   useLayoutEffect(() => {
     if (descrRef.current) {
@@ -74,6 +122,8 @@ export const MusicPage = () => {
       setShowTagsToggle(isOverflowing);
     }
   }, [tag]);
+
+  const remainingTime = duration - currentTime;
 
   return (
     <div className="px-25 py-10 flex gap-10">
@@ -171,8 +221,79 @@ export const MusicPage = () => {
         </div>
       </div>
 
-      <div>
-        <PdfViewer fileUrl={samplePdf} />
+      <div className="flex flex-col gap-6">
+        <div className="flex justify-between w-full">
+          <div className="flex gap-6 items-center">
+            <Button
+              variant="default"
+              className="bg-white text-black rounded-full hover:bg-neutral-400"
+              size="lg"
+            >
+              Download
+            </Button>
+            <div className="w-6 h-6">
+              <Icon name="Heart" />
+            </div>
+            <div className="flex gap-1 text-neutral-400">
+              <div className="w-5">
+                <Icon name="Eye" className="text-neutral-400" />
+              </div>
+              16K
+            </div>
+          </div>
+          <div className="flex items-center gap-4 bg-transparent text-white p-2 rounded-lg">
+            <audio
+              ref={audioRef}
+              src={audio}
+              onTimeUpdate={onTimeUpdate}
+              onLoadedMetadata={onLoadedMetadata}
+              onEnded={() => setIsPlaying(false)}
+            />
+
+            <Button
+              onClick={togglePlay}
+              variant="secondary"
+              className="rounded-full w-10 h-10 flex justify-center"
+            >
+              {isPlaying ? (
+                <Pause fill="black" className="text-black w-4 h-4" />
+              ) : (
+                <div className="w-4 h-4">
+                  <Icon name="Resume" />
+                </div>
+              )}
+            </Button>
+
+            <div className="flex flex-col w-100 gap-2">
+              <div className="flex justify-between w-full">
+                <Typography variant="body3">
+                  {formatTime(currentTime)}
+                </Typography>
+
+                <Typography variant="body3" className="text-neutral-500">
+                  -{formatTime(remainingTime)}
+                </Typography>
+              </div>
+              <div className="relative w-full flex items-center">
+                <Slider
+                  value={[currentTime]}
+                  max={duration || 100}
+                  step={0.1}
+                  onValueChange={onSliderChange}
+                  className="cursor-pointer [&>.relative]:bg-neutral-500 [&>.relative>.absolute]:bg-neutral-300"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-6">
+          <div>
+            <PdfViewer fileUrl={samplePdf} />
+          </div>
+          <div className="w-80.5 bg-neutral-800 rounded-lg border border-neutral-700 p-6">
+            <Typography variant="h3">You may also like</Typography>
+          </div>
+        </div>
       </div>
     </div>
   );
