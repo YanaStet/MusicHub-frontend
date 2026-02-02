@@ -2,54 +2,17 @@ import { Icon } from "@/shared/shadcn-ui/icon";
 import { Typography } from "@/shared/shadcn-ui/typography";
 import { ROUTE_PATHS } from "@/shared/utils/routes";
 import clsx from "clsx";
-import { useLayoutEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import type { TagDisplay } from "../home-page/filters/Filters";
 import { Badge } from "../home-page/filters/Badge";
-import PdfViewer from "./music-pdf/PdfReader";
-import audio from "./audio-sample.mp3";
-import samplePdf from "./music-pdf/sample.pdf";
+import PdfViewer from "../../shared/custom-ui/PdfViewer";
 import { Button } from "@/shared/shadcn-ui/button";
 import { Pause } from "lucide-react";
 import { Slider } from "@/shared/shadcn-ui/slider";
-
-const tag: TagDisplay[] = [
-  {
-    id: 1,
-    name: "Vivo",
-    isActive: true,
-  },
-  {
-    id: 2,
-    name: "Classic",
-    isActive: false,
-  },
-  {
-    id: 3,
-    name: "Jazz",
-    isActive: false,
-  },
-  {
-    id: 4,
-    name: "Cool",
-    isActive: false,
-  },
-  {
-    id: 5,
-    name: "Funny",
-    isActive: false,
-  },
-  {
-    id: 6,
-    name: "Pop",
-    isActive: false,
-  },
-  {
-    id: 7,
-    name: "Rock",
-    isActive: false,
-  },
-];
+import { SimilarCard } from "./similar-card/SimilarCard";
+import { noteHooks } from "@/entities/note/hooks";
+import { Loader } from "@/shared/custom-ui/Loader";
 
 export const MusicPage = () => {
   const [showDescrToggle, setShowDescrToggle] = useState(false);
@@ -63,8 +26,21 @@ export const MusicPage = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const descr =
-    " Description DescriptionDescription Description Description Description Description Description Description DescriptionDescription Description Description Description Description Description Description Description Description DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescriptionDescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription  DescriptionDescription Description Description Description Description Description Description Description";
+  const { id } = useParams();
+
+  const { data: note, isLoading: isNoteLoading } = noteHooks.useNoteByIdQuery(
+    id || "",
+  );
+
+  const { data: similar, isLoading: isSimilarLoading } =
+    noteHooks.usePaginatedNoteQuery({
+      page: 1,
+      limit: 6,
+      query: "",
+      sizes: [],
+      tagsIds: note?.data.tags.map((t) => t.id) || [],
+      timeSignaturesIds: [],
+    });
 
   const COLLAPSED_HEIGHT = 160;
 
@@ -114,21 +90,30 @@ export const MusicPage = () => {
       const isOverflowing = descrRef.current.scrollHeight > COLLAPSED_HEIGHT;
       setShowDescrToggle(isOverflowing);
     }
-  }, [descr]);
+  }, [note?.data.description]);
 
   useLayoutEffect(() => {
     if (tagsRef.current) {
       const isOverflowing = tagsRef.current.scrollHeight > COLLAPSED_HEIGHT;
       setShowTagsToggle(isOverflowing);
     }
-  }, [tag]);
+  }, [note?.data.tags]);
 
   const remainingTime = duration - currentTime;
+  const tagsDisplay: TagDisplay[] = useMemo(() => {
+    return (
+      note?.data.tags.map((t) => ({
+        id: t.id,
+        name: t.name,
+        isActive: false,
+      })) || []
+    );
+  }, [note]);
 
   return (
     <div className="px-25 py-10 flex gap-10">
       <div className="w-60 2xl:w-80">
-        <Typography variant="h2">Mutter</Typography>
+        <Typography variant="h2">{note?.data.title}</Typography>
 
         <div className="relative my-8">
           <div
@@ -140,7 +125,7 @@ export const MusicPage = () => {
                 : "max-h-25 2xl:max-h-40 overflow-hidden",
             )}
           >
-            <Typography variant="body3">{descr}</Typography>
+            <Typography variant="body3">{note?.data.description}</Typography>
           </div>
           {showTagsToggle && (
             <>
@@ -174,7 +159,8 @@ export const MusicPage = () => {
         <div className="my-8 flex gap-1 text-neutral-400 text-base">
           Uploaded by
           <Link to={ROUTE_PATHS.PROFILE} className="underline">
-            Naman Chauhan
+            {note?.data.author.firstName || ""}{" "}
+            {note?.data.author.lastName || ""}
           </Link>
         </div>
 
@@ -192,7 +178,7 @@ export const MusicPage = () => {
                 : "max-h-25 2xl:max-h-40 overflow-hidden",
             )}
           >
-            {tag.map((t) => (
+            {tagsDisplay.map((t) => (
               <Badge value={t} key={t.id} handleSelect={() => {}} />
             ))}
           </div>
@@ -238,13 +224,13 @@ export const MusicPage = () => {
               <div className="w-5">
                 <Icon name="Eye" className="text-neutral-400" />
               </div>
-              16K
+              {note?.data.views}
             </div>
           </div>
           <div className="flex items-center gap-4 bg-transparent text-white p-2 rounded-lg">
             <audio
               ref={audioRef}
-              src={audio}
+              src={note?.data.audioUrl}
               onTimeUpdate={onTimeUpdate}
               onLoadedMetadata={onLoadedMetadata}
               onEnded={() => setIsPlaying(false)}
@@ -287,11 +273,20 @@ export const MusicPage = () => {
           </div>
         </div>
         <div className="flex gap-6">
-          <div>
-            <PdfViewer fileUrl={samplePdf} />
+          <div className="h-190">
+            <PdfViewer fileUrl={note?.data.pdfUrl || ""} />
           </div>
           <div className="w-80.5 bg-neutral-800 rounded-lg border border-neutral-700 p-6">
             <Typography variant="h3">You may also like</Typography>
+            <div className="flex flex-col gap-6 mt-6 overflow-y-auto custom-scrollbar h-175">
+              {isSimilarLoading || true ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Loader />
+                </div>
+              ) : (
+                similar?.data.map((n, i) => <SimilarCard music={n} key={i} />)
+              )}
+            </div>
           </div>
         </div>
       </div>

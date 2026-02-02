@@ -20,8 +20,12 @@ export type Note = {
   createdAt: Date;
   views: number;
   size: TimeSignature;
-  authorName: string;
-  authorEmail: string;
+  author: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    id: number;
+  };
   tags: Tag[];
 };
 
@@ -37,4 +41,8 @@ export type NoteParams = {
   timeSignaturesIds: number[];
   sizes: string[];
   query: string | null;
+};
+
+export type NoteById = {
+  data: Note;
 };
