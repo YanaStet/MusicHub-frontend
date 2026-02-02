@@ -19,7 +19,7 @@ export const SimilarCard = ({ music }: SimilarCardProps) => {
         <img src={image} alt="Photo" className="object-cover w-full h-full" />
       </div>
       <div className="flex flex-col justify-between">
-        <div className="flex flex-col gap-1 w-32.5">
+        <div className="flex flex-col gap-1 w-40">
           <Typography variant="h3" className="truncate">
             {music.title}
           </Typography>

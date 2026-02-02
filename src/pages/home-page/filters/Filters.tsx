@@ -135,7 +135,7 @@ export const Filters = ({ setNoteParams }: FiltersProps) => {
       <Typography variant="h2">Filters</Typography>
       <div className="mt-8">
         <Typography variant="body1">Time signature</Typography>
-        <div className="w-full mt-2 mb-16 flex flex-col gap-2 relative">
+        <div className="w-full mt-2 mb-8 2xl:mb-16 flex flex-col gap-2 relative">
           <div
             className={`flex flex-wrap gap-2 transition-[max-height] duration-500 [scrollbar-gutter:stable] custom-scrollbar ${
               isSizeExpanded
