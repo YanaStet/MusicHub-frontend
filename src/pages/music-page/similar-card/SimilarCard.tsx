@@ -1,7 +1,6 @@
 import { Icon } from "@/shared/shadcn-ui/icon";
 import { Typography } from "@/shared/shadcn-ui/typography";
-import image from "./image 1.jpg";
-import { Link } from "react-router-dom";
+import { generatePath, Link } from "react-router-dom";
 import { ROUTE_PATHS } from "@/shared/utils/routes";
 import type { Note } from "@/entities/note/model";
 
@@ -12,11 +11,15 @@ type SimilarCardProps = {
 export const SimilarCard = ({ music }: SimilarCardProps) => {
   return (
     <Link
-      to={ROUTE_PATHS.MUSIC}
+      to={generatePath(ROUTE_PATHS.MUSIC, { id: music.id })}
       className="flex gap-2.5 cursor-pointer hover:bg-neutral-700 rounded-lg duration-300 p-1"
     >
       <div className="w-30 h-22.5 rounded-lg overflow-hidden">
-        <img src={image} alt="Photo" className="object-cover w-full h-full" />
+        <img
+          src={music.coverImageUrl}
+          alt="Photo"
+          className="object-cover w-full h-full"
+        />
       </div>
       <div className="flex flex-col justify-between">
         <div className="flex flex-col gap-1 w-40">

@@ -12,7 +12,7 @@ export function useNoteByIdQuery<TData = NoteById>(
   options?: Partial<UseQueryOptions<NoteById, AxiosError, TData>>,
 ): UseQueryResult<TData> {
   return useQuery<NoteById, AxiosError, TData>({
-    queryKey: [NOTE_CONSTANTS.GET_NOTE_BY_ID],
+    queryKey: [NOTE_CONSTANTS.GET_NOTE_BY_ID, id],
     queryFn: () => noteService.getNoteById(id),
     ...options,
   });

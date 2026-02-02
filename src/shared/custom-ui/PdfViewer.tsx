@@ -4,6 +4,7 @@ import { Icon } from "@/shared/shadcn-ui/icon";
 import { Input } from "@/shared/shadcn-ui/input";
 import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { Typography } from "../shadcn-ui/typography";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -84,11 +85,16 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ fileUrl }) => {
             </ButtonGroup>
           </div>
         )}
-        <div className="w-min">
+        <div className="min-w-50">
           <Document
             file={fileUrl}
             onLoadSuccess={onDocumentLoadSuccess}
             onLoadError={(error) => console.error("Error loading PDF:", error)}
+            error={
+              <div className="flex h-200 justify-center items-center text-neutral-400">
+                <Typography variant="body2">Failed to load notes</Typography>
+              </div>
+            }
             loading={<div>Loading...</div>}
           >
             <Page

@@ -163,8 +163,11 @@ export const MusicPage = () => {
               </div>
 
               <div className="w-full rounded-lg h-40 2xl:h-60 overflow-hidden mb-8">
-                {/* <img src="#" alt="cover" /> */}
-                <div className="w-full h-full bg-neutral-700"></div>
+                <img
+                  src={note?.data.coverImageUrl}
+                  alt="Cover"
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               <Link

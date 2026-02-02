@@ -1,10 +1,5 @@
 import { api } from "@/shared/api/api";
-import type {
-  NoteParams,
-  NotePaginatedResponse,
-  Note,
-  NoteById,
-} from "../model";
+import type { NoteParams, NotePaginatedResponse, NoteById } from "../model";
 import { buildQueryParams } from "@/shared/utils/query";
 
 class NoteService {
