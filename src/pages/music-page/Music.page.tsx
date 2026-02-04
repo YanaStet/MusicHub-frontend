@@ -2,7 +2,7 @@ import { Icon } from "@/shared/shadcn-ui/icon";
 import { Typography } from "@/shared/shadcn-ui/typography";
 import { ROUTE_PATHS } from "@/shared/utils/routes";
 import clsx from "clsx";
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import type { TagDisplay } from "../home-page/filters/Filters";
 import { Badge } from "../home-page/filters/Badge";
@@ -13,8 +13,11 @@ import { Slider } from "@/shared/shadcn-ui/slider";
 import { SimilarCard } from "./similar-card/SimilarCard";
 import { noteHooks } from "@/entities/note/hooks";
 import { Loader } from "@/shared/custom-ui/Loader";
+import { useMediaQuery } from "react-responsive";
+import { showToast } from "@/shared/utils/showToast";
 
 export const MusicPage = () => {
+  const [audioError, setAudioError] = useState(false);
   const [showDescrToggle, setShowDescrToggle] = useState(false);
   const [isDescrExpanded, setIsDescrExpanded] = useState(false);
   const descrRef = useRef<HTMLDivElement>(null);
@@ -26,7 +29,7 @@ export const MusicPage = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const isLaptop = window.matchMedia("(max-width: 1439px)").matches;
+  const isLaptop = useMediaQuery({ maxWidth: 1439 });
 
   const { id } = useParams();
 
@@ -100,6 +103,10 @@ export const MusicPage = () => {
       setShowTagsToggle(isOverflowing);
     }
   }, [note?.data.tags]);
+
+  useEffect(() => {
+    setAudioError(false);
+  }, [note?.data.audioUrl]);
 
   const remainingTime = duration - currentTime;
   const tagsDisplay: TagDisplay[] = useMemo(() => {
@@ -251,12 +258,21 @@ export const MusicPage = () => {
                     onTimeUpdate={onTimeUpdate}
                     onLoadedMetadata={onLoadedMetadata}
                     onEnded={() => setIsPlaying(false)}
+                    onError={() => {
+                      showToast(
+                        "error",
+                        "Something went wrong with the audio...",
+                      );
+                      setAudioError(true);
+                      setIsPlaying(false);
+                    }}
                   />
 
                   <Button
                     onClick={togglePlay}
                     variant="secondary"
                     className="rounded-full w-10 h-10 flex justify-center"
+                    disabled={audioError}
                   >
                     {isPlaying ? (
                       <Pause fill="black" className="text-black w-4 h-4" />
