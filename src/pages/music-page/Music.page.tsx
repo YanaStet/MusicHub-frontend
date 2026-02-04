@@ -37,7 +37,7 @@ export const MusicPage = () => {
   const { data: similar, isLoading: isSimilarLoading } =
     noteHooks.usePaginatedNoteQuery({
       page: 1,
-      limit: 6,
+      limit: 7,
       query: "",
       sizes: [],
       tagsIds: note?.data.tags.map((t) => t.id) || [],
@@ -296,15 +296,21 @@ export const MusicPage = () => {
                 {!isLaptop && (
                   <div className="w-60 2xl:w-80.5 bg-neutral-800 rounded-lg border border-neutral-700 p-6">
                     <Typography variant="h3">You may also like</Typography>
-                    <div className="flex flex-col gap-6 mt-6 overflow-y-auto custom-scrollbar h-100 2xl:h-175">
+                    <div className="flex flex-col gap-6 mt-6 overflow-y-auto custom-scrollbar">
                       {isSimilarLoading ? (
                         <div className="w-full h-full flex items-center justify-center">
                           <Loader />
                         </div>
+                      ) : similar?.data.find((n) => n.id === note?.data.id) ? (
+                        similar.data.map((n, i) => {
+                          if (n.id !== note?.data.id) {
+                            return <SimilarCard music={n} key={i} />;
+                          }
+                        })
                       ) : (
-                        similar?.data.map((n, i) => (
-                          <SimilarCard music={n} key={i} />
-                        ))
+                        similar?.data
+                          .slice(0, 5)
+                          .map((n, i) => <SimilarCard music={n} key={i} />)
                       )}
                     </div>
                   </div>
@@ -315,13 +321,21 @@ export const MusicPage = () => {
           {isLaptop && (
             <div className="w-full h-min bg-neutral-800 rounded-lg border border-neutral-700 p-6">
               <Typography variant="h3">You may also like</Typography>
-              <div className="flex flex-row gap-6 mt-6 overflow-y-auto custom-scrollbar 2xl:h-175">
+              <div className="flex flex-row gap-6 mt-6 overflow-y-auto custom-scrollbar">
                 {isSimilarLoading ? (
                   <div className="w-full h-full flex items-center justify-center">
                     <Loader />
                   </div>
+                ) : similar?.data.find((n) => n.id === note?.data.id) ? (
+                  similar.data.map((n, i) => {
+                    if (n.id !== note?.data.id) {
+                      return <SimilarCard music={n} key={i} />;
+                    }
+                  })
                 ) : (
-                  similar?.data.map((n, i) => <SimilarCard music={n} key={i} />)
+                  similar?.data
+                    .slice(0, 5)
+                    .map((n, i) => <SimilarCard music={n} key={i} />)
                 )}
               </div>
             </div>

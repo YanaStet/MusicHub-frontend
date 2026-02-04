@@ -1,5 +1,10 @@
 import { api } from "@/shared/api/api";
-import type { NoteParams, NotePaginatedResponse, NoteById } from "../model";
+import type {
+  NoteParams,
+  NotePaginatedResponse,
+  NoteById,
+  CreateNoteRequest,
+} from "../model";
 import { buildQueryParams } from "@/shared/utils/query";
 
 class NoteService {
@@ -11,6 +16,10 @@ class NoteService {
   }
   async getNoteById(id: string): Promise<NoteById> {
     const data = await api.get<NoteById>(`/songs/${id}`);
+    return data;
+  }
+  async createNote(body: CreateNoteRequest): Promise<NoteById> {
+    const data = await api.post<NoteById, CreateNoteRequest>(`/songs`, body);
     return data;
   }
 }

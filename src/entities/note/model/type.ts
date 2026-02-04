@@ -4,6 +4,7 @@ import type {
   InfinityQueryResponse,
   PaginatedData,
 } from "@/shared/types/common";
+import type { File } from "react-pdf/dist/shared/types.js";
 
 type Difficulty = "Hard" | "Medium" | "Easy";
 
@@ -45,4 +46,15 @@ export type NoteParams = {
 
 export type NoteById = {
   data: Note;
+};
+
+export type CreateNoteRequest = {
+  title: string;
+  userId: number;
+  timeSignatureId: number;
+  isPublic: boolean;
+  tagsIds: number[];
+  pdf: File;
+  audio: File;
+  cover: File;
 };
