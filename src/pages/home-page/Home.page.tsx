@@ -45,7 +45,7 @@ export const HomePage = () => {
     <div className="py-10 px-25 flex gap-10">
       <Filters setNoteParams={setNoteParams} />
       <div className="w-full max-w-200 2xl:max-w-340">
-        <Field className="w-full mb-10">
+        <Field className="w-full mb-5 2xl:mb-10">
           <ButtonGroup className="w-full">
             <Input
               id="input-button-group"
@@ -65,7 +65,7 @@ export const HomePage = () => {
           </ButtonGroup>
         </Field>
         <Typography variant="h2">Popular</Typography>
-        <div className="w-full mt-8 overflow-y-auto h-[calc(100dvh-310px)] rounded-lg overflow-x-hidden">
+        <div className="w-full mt-4 2xl:mt-8 overflow-y-auto h-[calc(100dvh-270px)] rounded-lg overflow-x-hidden">
           {allNotes &&
             allNotes.length === 0 &&
             noteParams.tagsIds.length === 0 &&
