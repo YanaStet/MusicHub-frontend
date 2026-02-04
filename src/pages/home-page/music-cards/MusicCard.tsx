@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/shadcn-ui/card";
-import musicImage from "./image 1.jpg";
 import { generatePath, useNavigate } from "react-router-dom";
 import { ROUTE_PATHS } from "@/shared/utils/routes";
 import type { Note } from "@/entities/note/model";
@@ -37,7 +36,11 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
           </CardDescription>
         </CardHeader>
         <div className="w-55 h-30 2xl:w-79 2xl:h-52 overflow-y-hidden">
-          <img src={musicImage} alt="Photo" className="object-cover" />
+          <img
+            src={music.coverImageUrl}
+            alt="Photo"
+            className="object-cover w-full h-full"
+          />
         </div>
         <div className="px-6 flex flex-wrap gap-2">
           {music.tags.map((tag) => (
