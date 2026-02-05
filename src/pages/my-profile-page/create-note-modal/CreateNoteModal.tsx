@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/shared/shadcn-ui/dialog";
 import { Icon } from "@/shared/shadcn-ui/icon";
-import type { CreateNoteSchema } from "./schema";
+import { createNoteSchema, type CreateNoteSchema } from "./schema";
 import { Controller, useForm } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "@/shared/shadcn-ui/field";
 import { FileUploadField } from "@/shared/custom-ui/FileUploadField";
@@ -29,6 +29,7 @@ import { noteHooks } from "@/entities/note/hooks";
 import { showToast } from "@/shared/utils/showToast";
 import { useQueryClient } from "@tanstack/react-query";
 import { NOTE_CONSTANTS } from "@/entities/note/model";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type ManageNoteModalProps = {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export const CreateNoteModal = ({
 }: ManageNoteModalProps) => {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const form = useForm<CreateNoteSchema>({
+    resolver: zodResolver(createNoteSchema),
     mode: "onSubmit",
   });
 

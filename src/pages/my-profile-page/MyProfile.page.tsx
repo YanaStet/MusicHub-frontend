@@ -9,8 +9,10 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { MusicCard } from "../../shared/custom-ui/MusicCard";
 import { noteHooks } from "@/entities/note/hooks";
 import { InfinityList } from "@/shared/custom-ui/InfinityList";
-import { CreateNoteModal } from "./manage-note-modal/CreateNoteModal";
+import { CreateNoteModal } from "./create-note-modal/CreateNoteModal";
 import { DeleteNote } from "@/shared/custom-ui/DeleteNote";
+import { EditNoteModal } from "./edit-note-modal/EditNoteModal";
+import type { Note } from "@/entities/note/model";
 
 export const MyProfilePage = () => {
   const [currentSearchInput, setCurrentSearchInput] = useState<string>("");
@@ -21,6 +23,8 @@ export const MyProfilePage = () => {
   const contentRefDescr = useRef<HTMLDivElement>(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [deleteNoteId, setDeleteNoteId] = useState<number>();
+  const [isEditNoteOpen, setIsEditNoteOpen] = useState(false);
+  const [editNote, setEditNote] = useState<Note>();
 
   const {
     data: notes,
@@ -51,6 +55,10 @@ export const MyProfilePage = () => {
 
   const handleOpenCreateNoteModal = () => {
     setIsCreateNoteModalOpen(true);
+  };
+
+  const handleOpenEditNoteModal = () => {
+    setIsEditNoteOpen(true);
   };
 
   const handleOpenAlertModal = () => {
@@ -231,10 +239,13 @@ export const MyProfilePage = () => {
                 music={note}
                 key={note.id}
                 isMine={true}
-                handleOpenEditModal={handleOpenCreateNoteModal}
+                handleOpenEditModal={handleOpenEditNoteModal}
                 handleOpenDeleteModal={handleOpenAlertModal}
                 setNoteId={(id: number) => {
                   setDeleteNoteId(id);
+                }}
+                setEditNote={(note: Note) => {
+                  setEditNote(note);
                 }}
               />
             ))}
@@ -250,6 +261,12 @@ export const MyProfilePage = () => {
         isOpen={isAlertOpen}
         setIsOpen={setIsAlertOpen}
         noteId={deleteNoteId}
+      />
+
+      <EditNoteModal
+        isOpen={isEditNoteOpen}
+        setIsOpen={setIsEditNoteOpen}
+        prevValues={editNote}
       />
     </div>
   );

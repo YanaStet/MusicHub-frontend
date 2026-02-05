@@ -18,11 +18,19 @@ export type MusicCardProps = {
   handleOpenDeleteModal?: () => void;
   handleOpenEditModal?: () => void;
   setNoteId?: (id: number) => void;
+  setEditNote?: (note: Note) => void;
 };
 
 export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
   (
-    { music, isMine, handleOpenDeleteModal, handleOpenEditModal, setNoteId },
+    {
+      music,
+      isMine,
+      handleOpenDeleteModal,
+      handleOpenEditModal,
+      setNoteId,
+      setEditNote,
+    },
     ref,
   ) => {
     const navigate = useNavigate();
@@ -63,6 +71,7 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
                 className="p-0 hover:text-white active:text-white hover:bg-transparent active:bg-transparent"
                 onClick={(e) => {
                   e.stopPropagation();
+                  if (setEditNote) setEditNote(music);
                   handleOpenEditModal();
                 }}
               >
