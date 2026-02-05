@@ -1,13 +1,10 @@
 MusicHub Frontend
 
-![License: MIT (https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![TypeScript (https://img.shields.io/badge/--blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-![React (https://img.shields.io/badge/--20232A?logo=react&logoColor=61DAFB)](https://reactjs.org/)
-![Vite (https://img.shields.io/badge/--646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
-
 A modern web application for discovering, sharing, and interacting with musical notes and compositions. Built with React, Vite, and a strong focus on a great user experience.
 
-!MusicHub Screenshot (https://via.placeholder.com/800x450.png?text=Add+a+Screenshot+of+Your+App+Here)
+<img width="1870" height="956" alt="image" src="https://github.com/user-attachments/assets/4a538ded-ca49-4efc-8f50-b8379e53bc8f" />
+
+
 A brief caption for the screenshot.
 
 ✨ Features
@@ -43,28 +40,28 @@ Prerequisites
 Installation
 
 1.  Clone the repository:
-    1 git clone https://github.com/your-username/musichub-frontend.git
-    2 cd musichub-frontend
+    - git clone https://github.com/your-username/musichub-frontend.git
+    - cd musichub-frontend
 
 2.  Install dependencies:
-    1 npm install
+    - npm install
 
 3.  Set up environment variables:
-    Create a .env file in the root of the project and add the necessary environment variables. You can use the .env.example (if you create one) as a template.
+    - Create a .env file in the root of the project and add the necessary environment variables. You can use the .env.example (if you create one) as a template.
 
-1 # Base URL for the backend API
-2 VITE_API_BASE_URL=http://localhost:5000/api
-3
-4 # Cloudinary credentials for file uploads  
- 5 VITE_CLOUDINARY_CLOUD_NAME=<YOUR_CLOUD_NAME>
-6 VITE_CLOUDINARY_API_KEY=<YOUR_API_KEY>  
- 7 VITE_CLOUDINARY_API_SECRET=<YOUR_API_SECRET>
+1.  Base URL for the backend
+    - API VITE_API_BASE_URL=http://localhost:5000/api
+      
+2.  Cloudinary credentials for file uploads  
+    - VITE_CLOUDINARY_CLOUD_NAME=<YOUR_CLOUD_NAME>
+    - VITE_CLOUDINARY_API_KEY=<YOUR_API_KEY>  
+    - VITE_CLOUDINARY_API_SECRET=<YOUR_API_SECRET>
 
 Running the Application
 
 To start the development server, run:
 
-1 npm run dev
+- npm run dev
 
 The application will be available at http://localhost:5173 (or another port if 5173 is busy).
 
@@ -91,11 +88,10 @@ The project follows a feature-sliced design methodology to keep the codebase org
     7 └── shared/      # Reusable code used across the project (UI kits, assets, utils)
     8     ├── api/     # Base API setup (e.g., Axios instance)
     9     ├── assets/  # SVGs, images, etc.
-
-10 ├── custom-ui/# Custom-built UI components
-11 ├── hooks/ # Global reusable hooks
-12 ├── shadcn-ui/# Auto-generated shadcn components
-13 └── utils/ # Shared utility functions
+    10    ├── custom-ui/# Custom-built UI components
+    11    ├── hooks/ # Global reusable hooks
+    12    ├── shadcn-ui/# Auto-generated shadcn components
+    13    └── utils/ # Shared utility functions
 
 📄 License
 
