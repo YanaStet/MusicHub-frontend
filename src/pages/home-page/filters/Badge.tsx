@@ -7,23 +7,29 @@ type BadgeValue = {
 
 type BadgeProps<T extends BadgeValue> = {
   value: T;
-  handleSelect: (value: T) => void;
+  handleSelect?: (value: T) => void;
+  className?: string;
 };
 
 export const Badge = <T extends BadgeValue>({
   value,
   handleSelect,
+  className,
 }: BadgeProps<T>) => {
   return (
     <div
       className={clsx(
-        "py-1 px-2 cursor-pointer rounded-xl hover:bg-neutral-700 duration-300 border-2 flex",
+        "py-1 px-2 cursor-pointer rounded-xl duration-300 border-2 flex",
         value.isActive
           ? "bg-neutral-700 border-white"
           : "bg-neutral-800 border-neutral-800",
+        handleSelect && "hover:bg-neutral-700",
+        className,
       )}
       onClick={() => {
-        handleSelect(value);
+        if (handleSelect) {
+          handleSelect(value);
+        }
       }}
     >
       {value.name}

@@ -22,6 +22,10 @@ class NoteService {
     const data = await api.post<NoteById, CreateNoteRequest>(`/songs`, body);
     return data;
   }
+  async deleteNote(id: number): Promise<{}> {
+    const data = await api.delete<{}>(`/songs/${id}`);
+    return data;
+  }
 }
 
 export const noteService = new NoteService();

@@ -6,7 +6,7 @@ import { Icon } from "@/shared/shadcn-ui/icon";
 import { Input } from "@/shared/shadcn-ui/input";
 import { Typography } from "@/shared/shadcn-ui/typography";
 import { useLayoutEffect, useRef, useState } from "react";
-import { MusicCard } from "../home-page/music-cards/MusicCard";
+import { MusicCard } from "../../shared/custom-ui/MusicCard";
 import { noteHooks } from "@/entities/note/hooks";
 import { InfinityList } from "@/shared/custom-ui/InfinityList";
 

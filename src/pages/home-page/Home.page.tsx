@@ -3,7 +3,7 @@ import { Filters } from "./filters/Filters";
 import { Input } from "@/shared/shadcn-ui/input";
 import { ButtonGroup } from "@/shared/shadcn-ui/button-group";
 import { Field } from "@/shared/shadcn-ui/field";
-import { MusicCard } from "./music-cards/MusicCard";
+import { MusicCard } from "../../shared/custom-ui/MusicCard";
 import { Typography } from "@/shared/shadcn-ui/typography";
 import { noteHooks } from "@/entities/note/hooks";
 import { useState } from "react";
