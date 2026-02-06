@@ -19,7 +19,20 @@ class NoteService {
     return data;
   }
   async createNote(body: CreateNoteRequest): Promise<NoteById> {
-    const data = await api.post<NoteById, CreateNoteRequest>(`/songs`, body);
+    const formData = new FormData();
+    formData.append("title", body.title);
+    formData.append("userId", String(body.userId));
+    formData.append("timeSignatureId", String(body.timeSignatureId));
+    formData.append("isPublic", String(body.isPublic));
+
+    if (body.tagsIds && body.tagsIds.length > 0) {
+      formData.append("tagsIds", body.tagsIds.join(","));
+    }
+
+    if (body.pdf) formData.append("pdf", body.pdf as Blob);
+    if (body.audio) formData.append("audio", body.audio as Blob);
+    if (body.cover) formData.append("cover", body.cover as Blob);
+    const data = await api.post<NoteById, FormData>(`/songs`, formData);
     return data;
   }
   async deleteNote(id: number): Promise<{}> {

@@ -47,17 +47,17 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
         ref={ref}
       >
         <div className="flex justify-between px-4">
-          <CardHeader className="text-white w-48">
+          <CardHeader className="text-white w-35 2xl:w-48">
             <CardTitle>{music.title}</CardTitle>
             <CardDescription className="max-w-full truncate">
               {music.description}
             </CardDescription>
           </CardHeader>
           {isMine && handleOpenDeleteModal && handleOpenEditModal && (
-            <div className="flex gap-2 text-neutral-500">
+            <div className="flex 2xl:gap-2 text-neutral-500">
               <Button
                 variant="ghost"
-                className="p-0 hover:text-red-400 active:text-white hover:bg-transparent active:bg-transparent"
+                className="p-0 hover:text-red-400 active:text-white hover:bg-transparent active:bg-transparent 2xl:w-5 2xl:h-5 w-3 h-3"
                 onClick={(e) => {
                   e.stopPropagation();
                   if (setNoteId) setNoteId(music.id);
@@ -68,7 +68,7 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
               </Button>
               <Button
                 variant="ghost"
-                className="p-0 hover:text-white active:text-white hover:bg-transparent active:bg-transparent"
+                className="p-0 hover:text-white active:text-white hover:bg-transparent active:bg-transparent 2xl:w-5 2xl:h-5 w-3 h-3"
                 onClick={(e) => {
                   e.stopPropagation();
                   if (setEditNote) setEditNote(music);

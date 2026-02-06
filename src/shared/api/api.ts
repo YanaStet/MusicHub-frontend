@@ -13,22 +13,36 @@ class Api {
   ): Promise<T> {
     const config: RequestInit = {
       method,
-      headers: {
-        "Content-Type": "application/json",
-        ...headers,
-      },
-      credentials: "include",
+      headers: { ...headers },
+      // credentials: "include", TODO
     };
 
     if (body) {
-      config.body = JSON.stringify(body);
+      if (body instanceof FormData) {
+        config.body = body;
+      } else {
+        config.body = JSON.stringify(body);
+
+        (config.headers as Record<string, string>)["Content-Type"] =
+          "application/json";
+      }
     }
 
     try {
       const response = await fetch(`${this.baseUrl}${endpoint}`, config);
 
+      if (response.status === 401) {
+        console.warn("User unauthorized");
+      }
+
       if (!response.ok) {
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+        const errorData = await response.json().catch(() => null);
+        const errorMessage = errorData?.message || response.statusText;
+        throw new Error(`API Error: ${response.status} ${errorMessage}`);
+      }
+
+      if (response.status === 204) {
+        return {} as T;
       }
 
       return (await response.json()) as T;

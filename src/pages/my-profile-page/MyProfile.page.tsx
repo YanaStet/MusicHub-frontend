@@ -75,7 +75,7 @@ export const MyProfilePage = () => {
 
   return (
     <div className="flex gap-10 px-25 py-10">
-      <div className="flex flex-col gap-8 2xl:w-80">
+      <div className="flex flex-col gap-8 2xl:w-80 w-60">
         <Avatar className="w-16 h-16">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>

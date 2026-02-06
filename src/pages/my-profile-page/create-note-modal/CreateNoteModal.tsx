@@ -61,7 +61,6 @@ export const CreateNoteModal = ({
   const queryClient = useQueryClient();
 
   const onSubmit = (values: CreateNoteSchema) => {
-    console.log(values);
     mutate(
       {
         audio: values.audio,
@@ -223,7 +222,10 @@ export const CreateNoteModal = ({
               <div className="flex gap-1">
                 <Popover>
                   <PopoverTrigger>
-                    <Button className="rounded-full bg-neutral-700 hover:bg-neutral-600">
+                    <Button
+                      className="rounded-full bg-neutral-700 hover:bg-neutral-600"
+                      type="button"
+                    >
                       <Icon name="Plus" />
                     </Button>
                   </PopoverTrigger>
