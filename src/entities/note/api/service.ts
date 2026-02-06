@@ -26,6 +26,15 @@ class NoteService {
     const data = await api.delete<{}>(`/songs/${id}`);
     return data;
   }
+  async getSongsByComposerId(
+    id: number,
+    params: NoteParams,
+  ): Promise<NotePaginatedResponse> {
+    const data = await api.get<NotePaginatedResponse>(
+      `/composer/${id}/songs?${buildQueryParams(params)}`,
+    );
+    return data;
+  }
 }
 
 export const noteService = new NoteService();

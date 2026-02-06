@@ -17,6 +17,7 @@ class Api {
         "Content-Type": "application/json",
         ...headers,
       },
+      credentials: "include",
     };
 
     if (body) {
