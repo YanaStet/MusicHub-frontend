@@ -42,9 +42,9 @@ export const HomePage = () => {
   };
 
   return (
-    <div className="py-10 px-25 flex gap-10">
+    <div className="py-10 px-10 2xl:px-25 flex gap-10">
       <Filters setNoteParams={setNoteParams} />
-      <div className="w-full max-w-200 2xl:max-w-340">
+      <div className="w-full max-w-230 2xl:max-w-340">
         <Field className="w-full mb-5 2xl:mb-10">
           <ButtonGroup className="w-full">
             <Input

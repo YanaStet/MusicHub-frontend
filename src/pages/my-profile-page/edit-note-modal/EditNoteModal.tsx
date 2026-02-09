@@ -1,4 +1,10 @@
-import { Dialog, DialogContent, DialogTitle } from "@/shared/shadcn-ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+} from "@/shared/shadcn-ui/dialog";
 import { Field, FieldError, FieldLabel } from "@/shared/shadcn-ui/field";
 import { Textarea } from "@/shared/shadcn-ui/textarea";
 import { Controller, useForm } from "react-hook-form";
@@ -160,6 +166,22 @@ export const EditNoteModal = ({
               ))}
             </div>
           </div>
+          <DialogFooter className="w-full">
+            <Button
+              type="submit"
+              className="bg-white text-black hover:bg-neutral-300 w-[50%]"
+            >
+              Save changes
+            </Button>
+            <DialogClose asChild>
+              <Button
+                variant="outline"
+                className="w-[50%] bg-neutral-600 border border-neutral-500 text-white hover:bg-neutral-400 "
+              >
+                Cancel
+              </Button>
+            </DialogClose>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>

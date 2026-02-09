@@ -60,13 +60,13 @@ export const ProfilePage = () => {
   }, [COLLAPSED_HEIGHT]); //TODO
 
   return (
-    <div className="flex gap-10 px-25 py-10">
+    <div className="flex gap-10 px-10 2xl:px-25 py-10">
       {isComposerLoading ? (
         <div className="2x:80 w-60">
           <Loader />
         </div>
       ) : (
-        <div className="flex flex-col gap-8 2xl:w-80 w-60">
+        <div className="flex flex-col gap-8 2xl:w-80 w-70">
           <Avatar className="w-16 h-16">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>
@@ -86,7 +86,7 @@ export const ProfilePage = () => {
               }`}
               ref={contentRefDescr}
             >
-              <Typography>{composer?.data.createdAt.toString()}</Typography>
+              <Typography>{composer?.data.bio}</Typography>
             </div>
 
             {showSizeToggle && (
@@ -114,7 +114,7 @@ export const ProfilePage = () => {
           </div>{" "}
         </div>
       )}
-      <div className="w-full max-w-200 2xl:max-w-340">
+      <div className="w-full max-w-225 2xl:max-w-340">
         <Field className="w-full mb-10">
           <ButtonGroup className="w-full">
             <Input

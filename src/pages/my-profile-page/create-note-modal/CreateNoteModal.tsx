@@ -261,10 +261,10 @@ export const CreateNoteModal = ({
               </div>
             </div>
           </div>
-          <DialogFooter className="w-full">
+          <DialogFooter className="w-full mt-4">
             <Button
               type="submit"
-              className="bg-white text-black hover:bg-neutral-300 "
+              className="bg-white text-black hover:bg-neutral-300 w-[50%]"
             >
               Upload
               <Icon name="Upload" />
@@ -272,7 +272,7 @@ export const CreateNoteModal = ({
             <DialogClose asChild>
               <Button
                 variant="outline"
-                className="bg-neutral-600 border border-neutral-500 text-white hover:bg-neutral-400 "
+                className="w-[50%] bg-neutral-600 border border-neutral-500 text-white hover:bg-neutral-400 "
               >
                 Cancel
               </Button>

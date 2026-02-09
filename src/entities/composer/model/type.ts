@@ -7,6 +7,7 @@ export type Composer = {
   firstName: string;
   lastName: string;
   createdAt: Date;
+  bio: string | null;
 };
 
 export type ComposerResponse = {

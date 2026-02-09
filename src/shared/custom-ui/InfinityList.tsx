@@ -48,10 +48,15 @@ export const InfinityList = <TData,>({
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div
-      className={clsx("flex w-full flex-wrap gap-6 justify-around", className)}
-    >
-      {children}
+    <div>
+      <div
+        className={clsx(
+          "flex w-full flex-wrap gap-6 justify-around",
+          className,
+        )}
+      >
+        {children}
+      </div>
       <div ref={sentinelRef} />
       {isFetchingNextPage && <Loader />}
     </div>

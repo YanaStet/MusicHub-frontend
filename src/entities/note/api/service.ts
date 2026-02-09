@@ -44,7 +44,7 @@ class NoteService {
     params: NoteParams,
   ): Promise<NotePaginatedResponse> {
     const data = await api.get<NotePaginatedResponse>(
-      `/composer/${id}/songs?${buildQueryParams(params)}`,
+      `/composers/${id}/songs?${buildQueryParams(params)}`,
     );
     return data;
   }

@@ -51,7 +51,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ fileUrl }) => {
   };
 
   return (
-    <div className="pdf-viewer-container w-200 2xl:w-250 ">
+    <div className="pdf-viewer-container w-225 2xl:w-250 ">
       <div className="relative bg-neutral-800 border border-neutral-700 rounded-lg w-full flex justify-center">
         {!isLoading && numPages && (
           <div className="absolute bottom-6 z-10 flex justify-center w-full items-center">

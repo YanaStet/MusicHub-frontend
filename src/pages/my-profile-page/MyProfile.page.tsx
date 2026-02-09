@@ -13,6 +13,8 @@ import { CreateNoteModal } from "./create-note-modal/CreateNoteModal";
 import { DeleteNote } from "@/shared/custom-ui/DeleteNote";
 import { EditNoteModal } from "./edit-note-modal/EditNoteModal";
 import type { Note } from "@/entities/note/model";
+import { EditProfileModal } from "./edit-profile-modal/EditProfileModal";
+import { useMe } from "@/shared/store/common";
 
 export const MyProfilePage = () => {
   const [currentSearchInput, setCurrentSearchInput] = useState<string>("");
@@ -25,6 +27,9 @@ export const MyProfilePage = () => {
   const [deleteNoteId, setDeleteNoteId] = useState<number>();
   const [isEditNoteOpen, setIsEditNoteOpen] = useState(false);
   const [editNote, setEditNote] = useState<Note>();
+  const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
+
+  const { me } = useMe();
 
   const {
     data: notes,
@@ -65,6 +70,10 @@ export const MyProfilePage = () => {
     setIsAlertOpen(true);
   };
 
+  const handleOpenEditProfileModal = () => {
+    setEditProfileModalOpen(true);
+  };
+
   useLayoutEffect(() => {
     if (contentRefDescr.current) {
       const isOverflowing =
@@ -74,13 +83,15 @@ export const MyProfilePage = () => {
   }, [COLLAPSED_HEIGHT]); //TODO
 
   return (
-    <div className="flex gap-10 px-25 py-10">
-      <div className="flex flex-col gap-8 2xl:w-80 w-60">
+    <div className="flex gap-10 px-10 2xl:px-25 py-10">
+      <div className="flex flex-col gap-8 2xl:w-80 w-70">
         <Avatar className="w-16 h-16">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <Typography variant="h1">Name</Typography>
+        <Typography variant="h1">
+          {me?.firstName} {me?.lastName}
+        </Typography>
         <div className="w-full mt-2 mb-16 flex flex-col gap-2 relative">
           <div
             className={`flex flex-wrap gap-2 transition-[max-height] duration-500 [scrollbar-gutter:stable] custom-scrollbar ${
@@ -90,68 +101,7 @@ export const MyProfilePage = () => {
             }`}
             ref={contentRefDescr}
           >
-            <Typography>
-              desct asd asddesct asd asddesct asd asddesct asd asd desct asd asd{" "}
-              desct asd asd desct asd asd desct asd asd desct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asd desct asd asddesct asd asddesct asd
-              asddesct asd asd desct asd asd desct asd asd desct asd asd desct
-              asd asd desct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asd desct
-              asd asddesct asd asddesct asd asddesct asd asd desct asd asd desct
-              asd asd desct asd asd desct asd asd desct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asd desct asd asddesct asd asddesct asd
-              asddesct asd asd desct asd asd desct asd asd desct asd asd desct
-              asd asd desct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asd desct
-              asd asddesct asd asddesct asd asddesct asd asd desct asd asd desct
-              asd asd desct asd asd desct asd asd desct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asd desct asd asddesct asd asddesct asd
-              asddesct asd asd desct asd asd desct asd asd desct asd asd desct
-              asd asd desct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asddesct
-              asd asddesct asd asddesct asd asddesct asd asddesct asd asd desct
-              asd asddesct asd asddesct asd asddesct asd asd desct asd asd desct
-              asd asd desct asd asd desct asd asd desct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asddesct asd asddesct asd asddesct asd
-              asddesct asd asddesct asd asd{" "}
-            </Typography>
+            <Typography>{me?.bio || "No bio provided."}</Typography>
           </div>
 
           {showSizeToggle && (
@@ -178,7 +128,7 @@ export const MyProfilePage = () => {
           )}
         </div>{" "}
       </div>
-      <div className="w-full max-w-201 2xl:max-w-340">
+      <div className="w-full max-w-225 2xl:max-w-340">
         <Field className="w-full mb-10">
           <ButtonGroup className="w-full">
             <Input
@@ -208,6 +158,7 @@ export const MyProfilePage = () => {
             Upload
           </Button>
           <Button
+            onClick={handleOpenEditProfileModal}
             variant="secondary"
             className="rounded-full bg-neutral-700 text-white hover:bg-neutral-500 border border-neutral-600 hover:border-neutral-400 active:bg-white active:text-black active:border-white"
           >
@@ -267,6 +218,11 @@ export const MyProfilePage = () => {
         isOpen={isEditNoteOpen}
         setIsOpen={setIsEditNoteOpen}
         prevValues={editNote}
+      />
+
+      <EditProfileModal
+        open={editProfileModalOpen}
+        setOpen={setEditProfileModalOpen}
       />
     </div>
   );

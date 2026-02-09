@@ -14,7 +14,7 @@ class Api {
     const config: RequestInit = {
       method,
       headers: { ...headers },
-      // credentials: "include", TODO
+      credentials: "include",
     };
 
     if (body) {
