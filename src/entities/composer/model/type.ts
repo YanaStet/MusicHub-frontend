@@ -8,6 +8,7 @@ export type Composer = {
   lastName: string;
   createdAt: Date;
   bio: string | null;
+  avatar: string | null;
 };
 
 export type ComposerResponse = {

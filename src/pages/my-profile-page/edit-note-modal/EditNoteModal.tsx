@@ -25,6 +25,12 @@ import type { Tag } from "@/entities/tag/model";
 import { useEffect, useState } from "react";
 import type { Note } from "@/entities/note/model";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { noteHooks } from "@/entities/note/hooks";
+import { showToast } from "@/shared/utils/showToast";
+import { AUTH_CONSTANTS } from "@/entities/auth/model";
+import { useQueryClient } from "@tanstack/react-query";
+import { Spinner } from "@/shared/shadcn-ui/spinner";
+import { handleApiError } from "@/shared/utils/handleApiError";
 
 type EditNoteModalProps = {
   isOpen: boolean;
@@ -57,6 +63,9 @@ export const EditNoteModal = ({
     limit: 10,
   });
 
+  const { mutate, isPending } = noteHooks.useUpdateNoteMutation();
+  const queryClient = useQueryClient();
+
   const handleAddTag = (tag: Tag) => {
     if (!selectedTags.includes(tag)) {
       setSelectedTags([...selectedTags, tag]);
@@ -65,6 +74,27 @@ export const EditNoteModal = ({
 
   const handleRemoveTag = (tag: Tag) => {
     setSelectedTags(selectedTags.filter((t) => t.id !== tag.id));
+  };
+
+  const handleSubmit = (values: EditNoteSchema) => {
+    mutate(
+      {
+        id: prevValues?.id || 0,
+        tagsIds: selectedTags.map((t) => t.id),
+        title: values.title,
+        description: values.description,
+      },
+      {
+        onSuccess: () => {
+          showToast("success", "Note was updated successfuly");
+          queryClient.invalidateQueries({
+            queryKey: [AUTH_CONSTANTS.GET_MY_SONGS],
+          });
+          setIsOpen(false);
+        },
+        onError: (er) => handleApiError(er),
+      },
+    );
   };
 
   useEffect(() => {
@@ -84,7 +114,11 @@ export const EditNoteModal = ({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-88 bg-neutral-800 border border-neutral-700 text-white">
         <DialogTitle>Edit file</DialogTitle>
-        <form {...form} className="flex flex-col gap-4">
+        <form
+          {...form}
+          className="flex flex-col gap-4"
+          onSubmit={form.handleSubmit(handleSubmit)}
+        >
           <Controller
             name="title"
             control={form.control}
@@ -170,8 +204,10 @@ export const EditNoteModal = ({
             <Button
               type="submit"
               className="bg-white text-black hover:bg-neutral-300 w-[50%]"
+              disabled={isPending}
             >
               Save changes
+              {isPending && <Spinner data-icon="inline-start" />}
             </Button>
             <DialogClose asChild>
               <Button

@@ -4,6 +4,7 @@ import { useNoteByIdQuery } from "./useNoteByIdQuery";
 import { useCreateNoteMutation } from "./useCreateNoteMutation";
 import { useDeleteNoteMutation } from "./useDeleteNoteMutation";
 import { useNoteByComposerIdQuery } from "./useNoteByComposerIdQuery";
+import { useUpdateNoteMutation } from "./useUpdateNoteMutation";
 
 export const noteHooks = {
   usePaginatedNoteQuery,
@@ -12,4 +13,5 @@ export const noteHooks = {
   useCreateNoteMutation,
   useDeleteNoteMutation,
   useNoteByComposerIdQuery,
+  useUpdateNoteMutation,
 };

@@ -28,8 +28,11 @@ import { Badge } from "@/pages/home-page/filters/Badge";
 import { noteHooks } from "@/entities/note/hooks";
 import { showToast } from "@/shared/utils/showToast";
 import { useQueryClient } from "@tanstack/react-query";
-import { NOTE_CONSTANTS } from "@/entities/note/model";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AUTH_CONSTANTS } from "@/entities/auth/model";
+import { useMe } from "@/shared/store/common";
+import { Spinner } from "@/shared/shadcn-ui/spinner";
+import { handleApiError } from "@/shared/utils/handleApiError";
 
 type ManageNoteModalProps = {
   isOpen: boolean;
@@ -45,6 +48,7 @@ export const CreateNoteModal = ({
     resolver: zodResolver(createNoteSchema),
     mode: "onSubmit",
   });
+  const { me } = useMe();
 
   const {
     data: tags,
@@ -56,7 +60,7 @@ export const CreateNoteModal = ({
     limit: 10,
   });
 
-  const { mutate } = noteHooks.useCreateNoteMutation();
+  const { mutate, isPending } = noteHooks.useCreateNoteMutation();
 
   const queryClient = useQueryClient();
 
@@ -70,19 +74,18 @@ export const CreateNoteModal = ({
         tagsIds: selectedTags.map((t) => t.id),
         title: values.title,
         timeSignatureId: 1,
-        userId: 1,
+        userId: me?.id || 0,
       },
       {
         onSuccess: () => {
           showToast("success", "Note was successfuly created");
           queryClient.invalidateQueries({
-            queryKey: [NOTE_CONSTANTS.INFINITE_QUERY],
+            queryKey: [AUTH_CONSTANTS.GET_MY_SONGS],
           });
+          setIsOpen(false);
           form.reset();
         },
-        onError: () => {
-          showToast("error", "Some error ocured");
-        },
+        onError: (er) => handleApiError(er),
       },
     );
   };
@@ -265,9 +268,14 @@ export const CreateNoteModal = ({
             <Button
               type="submit"
               className="bg-white text-black hover:bg-neutral-300 w-[50%]"
+              disabled={isPending}
             >
               Upload
-              <Icon name="Upload" />
+              {isPending ? (
+                <Spinner data-icon="inline-start" />
+              ) : (
+                <Icon name="Upload" />
+              )}
             </Button>
             <DialogClose asChild>
               <Button

@@ -1,3 +1,4 @@
+import { authHooks } from "@/entities/auth/hooks";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/shadcn-ui/avatar";
 import { Button } from "@/shared/shadcn-ui/button";
 import {
@@ -7,13 +8,30 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/shadcn-ui/dropdown-menu";
 import { Icon } from "@/shared/shadcn-ui/icon";
+import { useMe } from "@/shared/store/common";
+import { handleApiError } from "@/shared/utils/handleApiError";
 import { ROUTE_PATHS } from "@/shared/utils/routes";
+import { showToast } from "@/shared/utils/showToast";
 import { Link, useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const navigate = useNavigate();
 
+  const { me } = useMe();
+
+  const { mutate, isPending } = authHooks.useLogoutMutation();
+
   const handleLogout = () => {
+    mutate(
+      {},
+      {
+        onSuccess: () => {
+          showToast("success", "You successfuly loged out");
+          navigate(ROUTE_PATHS.AUTH);
+        },
+        onError: (er) => handleApiError(er),
+      },
+    );
     navigate(ROUTE_PATHS.AUTH);
   };
 
@@ -33,7 +51,7 @@ export const Header = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={me?.avatar || undefined} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
@@ -41,7 +59,9 @@ export const Header = () => {
             <Link to={ROUTE_PATHS.MY_PROFILE}>
               <DropdownMenuItem>Profile</DropdownMenuItem>
             </Link>
-            <DropdownMenuItem onClick={handleLogout}>Log Out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} disabled={isPending}>
+              Log Out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

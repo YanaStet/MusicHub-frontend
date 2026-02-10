@@ -1,13 +1,25 @@
-import { Button } from "@/shared/shadcn-ui/button";
+import { useState } from "react";
+import { LoginForm } from "./login-form/LoginForm";
+import { RegisterForm } from "./register-form/RegisterForm";
 
 export const AuthPage = () => {
-  const handleLogin = () => {
-    window.location.href = "http://localhost:34/auth/google";
-  };
+  const [displayRegister, setDisplayRegister] = useState(false);
 
   return (
-    <div>
-      <Button onClick={handleLogin}>Login with google</Button>
+    <div className="flex items-center justify-center h-dvh">
+      {displayRegister ? (
+        <RegisterForm
+          setDisplayRegister={() => {
+            setDisplayRegister(false);
+          }}
+        />
+      ) : (
+        <LoginForm
+          setDisplayRegister={() => {
+            setDisplayRegister(true);
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -11,7 +11,8 @@ import {
 } from "@/shared/shadcn-ui/alert-dialog";
 import { showToast } from "../utils/showToast";
 import { useQueryClient } from "@tanstack/react-query";
-import { NOTE_CONSTANTS } from "@/entities/note/model";
+import { AUTH_CONSTANTS } from "@/entities/auth/model";
+import { handleApiError } from "../utils/handleApiError";
 
 type DeleteNoteProps = {
   isOpen: boolean;
@@ -28,12 +29,10 @@ export const DeleteNote = ({ isOpen, setIsOpen, noteId }: DeleteNoteProps) => {
         onSuccess: () => {
           showToast("success", "Note was successfuly deleted.");
           queryClient.invalidateQueries({
-            queryKey: [NOTE_CONSTANTS.INFINITE_QUERY],
+            queryKey: [AUTH_CONSTANTS.GET_MY_SONGS],
           });
         },
-        onError: () => {
-          showToast("error", "Some error occured.");
-        },
+        onError: (er) => handleApiError(er),
       });
     }
   };

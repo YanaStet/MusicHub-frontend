@@ -68,7 +68,7 @@ export const ProfilePage = () => {
       ) : (
         <div className="flex flex-col gap-8 2xl:w-80 w-70">
           <Avatar className="w-16 h-16">
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src={composer?.data.avatar || undefined} />
             <AvatarFallback>
               {composer?.data.firstName[0]}
               {composer?.data.lastName[0]}
@@ -86,7 +86,9 @@ export const ProfilePage = () => {
               }`}
               ref={contentRefDescr}
             >
-              <Typography>{composer?.data.bio}</Typography>
+              <Typography>
+                {composer?.data?.bio || "No bio provided."}
+              </Typography>
             </div>
 
             {showSizeToggle && (

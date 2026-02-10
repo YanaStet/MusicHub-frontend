@@ -12,40 +12,46 @@ import { MusicPageLazy } from "@/pages/music-page/Music.page.lazy";
 import { SubscriptionPageLazy } from "@/pages/subscription-page/Subscription.page.lazy";
 import { AuthorizedLayout } from "./AuthorizedLayout";
 import { UnauthorizedLayout } from "./UnauthorizedLayout";
+import { RedirectLayout } from "./RedirectLayout";
 
 const routes: RouteObject[] = [
   {
-    element: <AuthorizedLayout />,
+    element: <RedirectLayout />,
     children: [
       {
-        element: <HomePageLazy />,
-        path: ROUTE_PATHS.HOME,
-      },
+        element: <AuthorizedLayout />,
+        children: [
+          {
+            element: <HomePageLazy />,
+            path: ROUTE_PATHS.HOME,
+          },
 
-      {
-        element: <ProfilePageLazy />,
-        path: ROUTE_PATHS.PROFILE,
+          {
+            element: <ProfilePageLazy />,
+            path: ROUTE_PATHS.PROFILE,
+          },
+          {
+            element: <MyProfilePageLazy />,
+            path: ROUTE_PATHS.MY_PROFILE,
+          },
+          {
+            element: <MusicPageLazy />,
+            path: ROUTE_PATHS.MUSIC,
+          },
+          {
+            element: <SubscriptionPageLazy />,
+            path: ROUTE_PATHS.SUBSCRIPTION,
+          },
+        ],
       },
       {
-        element: <MyProfilePageLazy />,
-        path: ROUTE_PATHS.MY_PROFILE,
-      },
-      {
-        element: <MusicPageLazy />,
-        path: ROUTE_PATHS.MUSIC,
-      },
-      {
-        element: <SubscriptionPageLazy />,
-        path: ROUTE_PATHS.SUBSCRIPTION,
-      },
-    ],
-  },
-  {
-    element: <UnauthorizedLayout />,
-    children: [
-      {
-        element: <AuthPageLazy />,
-        path: ROUTE_PATHS.AUTH,
+        element: <UnauthorizedLayout />,
+        children: [
+          {
+            element: <AuthPageLazy />,
+            path: ROUTE_PATHS.AUTH,
+          },
+        ],
       },
     ],
   },

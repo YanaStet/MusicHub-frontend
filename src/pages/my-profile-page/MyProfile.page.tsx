@@ -7,7 +7,6 @@ import { Input } from "@/shared/shadcn-ui/input";
 import { Typography } from "@/shared/shadcn-ui/typography";
 import { useLayoutEffect, useRef, useState } from "react";
 import { MusicCard } from "../../shared/custom-ui/MusicCard";
-import { noteHooks } from "@/entities/note/hooks";
 import { InfinityList } from "@/shared/custom-ui/InfinityList";
 import { CreateNoteModal } from "./create-note-modal/CreateNoteModal";
 import { DeleteNote } from "@/shared/custom-ui/DeleteNote";
@@ -15,6 +14,7 @@ import { EditNoteModal } from "./edit-note-modal/EditNoteModal";
 import type { Note } from "@/entities/note/model";
 import { EditProfileModal } from "./edit-profile-modal/EditProfileModal";
 import { useMe } from "@/shared/store/common";
+import { authHooks } from "@/entities/auth/hooks";
 
 export const MyProfilePage = () => {
   const [currentSearchInput, setCurrentSearchInput] = useState<string>("");
@@ -36,7 +36,7 @@ export const MyProfilePage = () => {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
-  } = noteHooks.useNoteInfinityQuery({
+  } = authHooks.useMySongsInfinityQuery({
     limit: 12,
     page: 1,
     query: searchValue,
@@ -86,7 +86,7 @@ export const MyProfilePage = () => {
     <div className="flex gap-10 px-10 2xl:px-25 py-10">
       <div className="flex flex-col gap-8 2xl:w-80 w-70">
         <Avatar className="w-16 h-16">
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage src={me?.avatar || undefined} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Typography variant="h1">

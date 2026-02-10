@@ -58,3 +58,10 @@ export type CreateNoteRequest = {
   audio: File;
   cover: File;
 };
+
+export type UpdateNoteRequest = {
+  id: number;
+  title: string;
+  description?: string;
+  tagsIds: number[];
+};

@@ -4,6 +4,7 @@ import type {
   NotePaginatedResponse,
   NoteById,
   CreateNoteRequest,
+  UpdateNoteRequest,
 } from "../model";
 import { buildQueryParams } from "@/shared/utils/query";
 
@@ -45,6 +46,18 @@ class NoteService {
   ): Promise<NotePaginatedResponse> {
     const data = await api.get<NotePaginatedResponse>(
       `/composers/${id}/songs?${buildQueryParams(params)}`,
+    );
+    return data;
+  }
+  async updateNote(body: UpdateNoteRequest): Promise<{}> {
+    const newBody = {
+      title: body.title,
+      description: body.description,
+      tagsIds: body.tagsIds,
+    };
+    const data = await api.put<{}, Omit<UpdateNoteRequest, "id">>(
+      `/songs/${body.id}`,
+      newBody,
     );
     return data;
   }
