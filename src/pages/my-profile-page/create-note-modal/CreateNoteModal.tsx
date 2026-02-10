@@ -33,6 +33,15 @@ import { AUTH_CONSTANTS } from "@/entities/auth/model";
 import { useMe } from "@/shared/store/common";
 import { Spinner } from "@/shared/shadcn-ui/spinner";
 import { handleApiError } from "@/shared/utils/handleApiError";
+import type { Difficulty } from "@/entities/note/model";
+import type { TimeSignature } from "@/entities/time-signature/model";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/shared/shadcn-ui/dropdown-menu";
+import { timeSignatureHooks } from "@/entities/time-signature/hooks";
 
 type ManageNoteModalProps = {
   isOpen: boolean;
@@ -44,6 +53,9 @@ export const CreateNoteModal = ({
   setIsOpen,
 }: ManageNoteModalProps) => {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [difficulty, setDifficulty] = useState<Difficulty>();
+  const [selectedTimeSignature, setSelectedTimeSignature] =
+    useState<TimeSignature>();
   const form = useForm<CreateNoteSchema>({
     resolver: zodResolver(createNoteSchema),
     mode: "onSubmit",
@@ -60,6 +72,16 @@ export const CreateNoteModal = ({
     limit: 10,
   });
 
+  const {
+    data: timeSignatures,
+    fetchNextPage: timeFetchNextPage,
+    isFetchingNextPage: timeIsFetchingNextPage,
+    hasNextPage: timeHasNextPage,
+  } = timeSignatureHooks.useTimeSignaturesInfinityQuery({
+    page: 1,
+    limit: 12,
+  });
+
   const { mutate, isPending } = noteHooks.useCreateNoteMutation();
 
   const queryClient = useQueryClient();
@@ -73,8 +95,10 @@ export const CreateNoteModal = ({
         pdf: values.pdf,
         tagsIds: selectedTags.map((t) => t.id),
         title: values.title,
-        timeSignatureId: 1,
+        timeSignatureId: selectedTimeSignature?.id || 1,
         userId: me?.id || 0,
+        description: values.description,
+        difficulty: difficulty || "easy",
       },
       {
         onSuccess: () => {
@@ -100,7 +124,29 @@ export const CreateNoteModal = ({
     setSelectedTags(selectedTags.filter((t) => t.id !== tag.id));
   };
 
+  const selectTimeSignature = (time: TimeSignature) => {
+    setSelectedTimeSignature(time);
+  };
+
+  const handleSelectDifficulty = (action: string) => {
+    switch (action) {
+      case "Easy":
+        setDifficulty("easy");
+        break;
+      case "Medium":
+        setDifficulty("medium");
+        break;
+      case "Hard":
+        setDifficulty("hard");
+        break;
+      default:
+        showToast("error", "Some error occured");
+    }
+  };
+
   const allTags = tags?.pages.flatMap((page) => page.data) || [];
+
+  const allSizes = timeSignatures?.pages.flatMap((page) => page.data) || [];
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -262,6 +308,100 @@ export const CreateNoteModal = ({
                   />
                 ))}
               </div>
+            </div>
+            <div>
+              <Typography className="mb-3">Time signature</Typography>
+              {selectedTimeSignature ? (
+                <Badge
+                  value={{
+                    name: selectedTimeSignature.name,
+                    isActive: false,
+                  }}
+                  handleSelect={() => {
+                    setSelectedTimeSignature(undefined);
+                  }}
+                  className="w-min"
+                />
+              ) : (
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Button>
+                      <Icon name="Plus" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-neutral-800 border-neutral-700 text-white">
+                    <InfinityList
+                      fetchNextPage={timeFetchNextPage}
+                      hasNextPage={timeHasNextPage}
+                      isFetchingNextPage={timeIsFetchingNextPage}
+                      className="flex flex-col max-h-40 overflow-y-auto gap-2"
+                    >
+                      {allSizes.map((s) => (
+                        <DropdownMenuItem
+                          className="duration-300"
+                          key={s.id}
+                          onClick={() => {
+                            selectTimeSignature(s);
+                          }}
+                        >
+                          {s.name}
+                        </DropdownMenuItem>
+                      ))}
+                    </InfinityList>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </div>
+            <div>
+              <Typography className="mb-3">Difficulty</Typography>
+              {difficulty ? (
+                <Badge
+                  value={{
+                    name:
+                      difficulty === "easy"
+                        ? "Easy"
+                        : difficulty === "medium"
+                          ? "Medium"
+                          : "Hard",
+                    isActive: false,
+                  }}
+                  handleSelect={() => {
+                    setDifficulty(undefined);
+                  }}
+                  className="w-min"
+                />
+              ) : (
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Button>
+                      <Icon name="Plus" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-neutral-800 border-neutral-700 text-white">
+                    <DropdownMenuItem
+                      onClick={() => {
+                        handleSelectDifficulty("Easy");
+                      }}
+                    >
+                      Easy
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        handleSelectDifficulty("Medium");
+                      }}
+                    >
+                      Medium
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        handleSelectDifficulty("Hard");
+                      }}
+                    >
+                      Hard
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </div>
           </div>
           <DialogFooter className="w-full mt-4">
