@@ -2,7 +2,11 @@ import type { Composer, ComposerResponse } from "@/entities/composer/model";
 import type { NotePaginatedResponse, NoteParams } from "@/entities/note/model";
 import { api } from "@/shared/api/api";
 import { buildQueryParams } from "@/shared/utils/query";
-import type { LoginRequest, RegisterRequest } from "../model";
+import type {
+  LoginRequest,
+  RegisterRequest,
+  UpdateProfileRequest,
+} from "../model";
 
 class AuthService {
   async login(body: LoginRequest): Promise<Composer> {
@@ -28,6 +32,19 @@ class AuthService {
     const data = await api.get<NotePaginatedResponse>(
       `/my-songs?${buildQueryParams(params)}`,
     );
+    return data;
+  }
+  async updateProfile(body: UpdateProfileRequest): Promise<Composer> {
+    const formData = new FormData();
+
+    if (body.firstName) formData.append("firstName", body.firstName);
+    if (body.lastName) formData.append("lastName", body.lastName);
+    if (body.bio) formData.append("bio", body.bio);
+
+    if (body.avatar) {
+      formData.append("avatar", body.avatar as Blob);
+    }
+    const data = await api.put<Composer, FormData>("/me", formData);
     return data;
   }
 }

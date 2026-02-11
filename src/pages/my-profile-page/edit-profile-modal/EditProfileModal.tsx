@@ -14,6 +14,12 @@ import { Icon } from "@/shared/shadcn-ui/icon";
 import { Textarea } from "@/shared/shadcn-ui/textarea";
 import { Input } from "@/shared/shadcn-ui/input";
 import { Button } from "@/shared/shadcn-ui/button";
+import { authHooks } from "@/entities/auth/hooks";
+import { showToast } from "@/shared/utils/showToast";
+import { handleApiError } from "@/shared/utils/handleApiError";
+import { Spinner } from "@/shared/shadcn-ui/spinner";
+import { useQueryClient } from "@tanstack/react-query";
+import { AUTH_CONSTANTS } from "@/entities/auth/model";
 
 type EditProfileModalProps = {
   open: boolean;
@@ -26,8 +32,28 @@ export const EditProfileModal = ({ open, setOpen }: EditProfileModalProps) => {
     mode: "onSubmit",
   });
 
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = authHooks.useUpdateProfileMutation();
+
   const handleSubmit = (values: EditProfileSchema) => {
-    console.log(values);
+    mutate(
+      {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        bio: values.bio,
+        avatar: values.avatar,
+      },
+      {
+        onSuccess: () => {
+          setOpen(false);
+          showToast("success", "Profile updated successfully");
+          queryClient.invalidateQueries({
+            queryKey: [AUTH_CONSTANTS.GET_ME],
+          });
+        },
+        onError: (er) => handleApiError(er),
+      },
+    );
   };
 
   return (
@@ -126,8 +152,10 @@ export const EditProfileModal = ({ open, setOpen }: EditProfileModalProps) => {
             <Button
               type="submit"
               className="bg-white text-black hover:bg-neutral-300 w-[50%]"
+              disabled={isPending}
             >
               Apply changes
+              {isPending && <Spinner data-icon="inline-start" />}
             </Button>
             <DialogClose asChild>
               <Button

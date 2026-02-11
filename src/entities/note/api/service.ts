@@ -29,7 +29,7 @@ class NoteService {
     if (body.tagsIds && body.tagsIds.length > 0) {
       formData.append("tagsIds", body.tagsIds.join(","));
     }
-
+    if (body.description) formData.append("description", body.description);
     if (body.pdf) formData.append("pdf", body.pdf as Blob);
     if (body.audio) formData.append("audio", body.audio as Blob);
     if (body.cover) formData.append("cover", body.cover as Blob);

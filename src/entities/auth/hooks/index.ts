@@ -3,6 +3,7 @@ import { useLogoutMutation } from "./useLogoutMutation";
 import { useMeQuery } from "./useMeQuery";
 import { useMySongsInfinityQuery } from "./useMySongsInfinityQuery";
 import { useRegisterMutation } from "./useRegisterMutation";
+import { useUpdateProfileMutation } from "./useUpdateProfileMutation";
 
 export const authHooks = {
   useMeQuery,
@@ -10,4 +11,5 @@ export const authHooks = {
   useLoginMutation,
   useRegisterMutation,
   useLogoutMutation,
+  useUpdateProfileMutation,
 };

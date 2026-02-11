@@ -14,14 +14,8 @@ import { Field, FieldError, FieldLabel } from "@/shared/shadcn-ui/field";
 import { FileUploadField } from "@/shared/custom-ui/FileUploadField";
 import { Textarea } from "@/shared/shadcn-ui/textarea";
 import { tagHooks } from "@/entities/tag/hooks";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/shared/shadcn-ui/popover";
 import { Typography } from "@/shared/shadcn-ui/typography";
 import { InfinityList } from "@/shared/custom-ui/InfinityList";
-import { Item, ItemTitle } from "@/shared/shadcn-ui/item";
 import type { Tag } from "@/entities/tag/model";
 import { useState } from "react";
 import { Badge } from "@/pages/home-page/filters/Badge";
@@ -269,35 +263,34 @@ export const CreateNoteModal = ({
             <div>
               <Typography className="mb-3">Tags</Typography>
               <div className="flex gap-1">
-                <Popover>
-                  <PopoverTrigger>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
                     <Button
                       className="rounded-full bg-neutral-700 hover:bg-neutral-600"
                       type="button"
                     >
                       <Icon name="Plus" />
                     </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="max-h-50 overflow-y-auto bg-neutral-800 border border-neutral-600 text-white w-50">
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="max-h-50 overflow-y-auto bg-neutral-800 border border-neutral-600 text-white custom-scrollbar w-30">
                     <InfinityList
                       fetchNextPage={fetchNextPage}
                       hasNextPage={hasNextPage}
                       isFetchingNextPage={isFetchingNextPage}
-                      className="gap-0"
+                      className="gap-0! flex flex-col! w-full"
                     >
                       {allTags.map((t) => (
-                        <Item
-                          className="cursor-pointer border border-neutral-600 rounded-lg w-full p-2 hover:bg-neutral-600"
+                        <DropdownMenuItem
                           onClick={() => {
                             handleAddTag(t);
                           }}
                         >
-                          <ItemTitle>{t.name}</ItemTitle>
-                        </Item>
+                          {t.name}
+                        </DropdownMenuItem>
                       ))}
                     </InfinityList>
-                  </PopoverContent>
-                </Popover>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 {selectedTags.map((t) => (
                   <Badge
                     handleSelect={() => {
@@ -320,7 +313,7 @@ export const CreateNoteModal = ({
                   handleSelect={() => {
                     setSelectedTimeSignature(undefined);
                   }}
-                  className="w-min"
+                  className="w-min bg-neutral-700!"
                 />
               ) : (
                 <DropdownMenu>
@@ -329,12 +322,12 @@ export const CreateNoteModal = ({
                       <Icon name="Plus" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-neutral-800 border-neutral-700 text-white">
+                  <DropdownMenuContent className="max-h-50 overflow-y-auto bg-neutral-800 border border-neutral-600 text-white custom-scrollbar w-30">
                     <InfinityList
                       fetchNextPage={timeFetchNextPage}
                       hasNextPage={timeHasNextPage}
                       isFetchingNextPage={timeIsFetchingNextPage}
-                      className="flex flex-col max-h-40 overflow-y-auto gap-2"
+                      className="gap-0! flex flex-col! w-full"
                     >
                       {allSizes.map((s) => (
                         <DropdownMenuItem
@@ -368,7 +361,7 @@ export const CreateNoteModal = ({
                   handleSelect={() => {
                     setDifficulty(undefined);
                   }}
-                  className="w-min"
+                  className="w-min bg-neutral-700!"
                 />
               ) : (
                 <DropdownMenu>

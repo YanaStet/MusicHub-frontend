@@ -119,7 +119,11 @@ export const LoginForm = ({ setDisplayRegister }: LoginFormProps) => {
             Login
             {isPending && <Spinner />}
           </Button>
-          <Button className="w-full bg-neutral-700" onClick={handleLogin}>
+          <Button
+            className="w-full bg-neutral-700"
+            onClick={handleLogin}
+            type="button"
+          >
             Login with google
           </Button>
         </CardFooter>

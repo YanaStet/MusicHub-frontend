@@ -16,13 +16,13 @@ export const SubscriptionCard = ({ isActive, plan }: SubscriptionPlanProps) => {
   return (
     <div
       className={clsx(
-        "p-4 rounded-lg border w-88",
+        "p-4 rounded-lg border w-65 2xl:w-88",
         isActive
           ? "bg-neutral-700 border-neutral-500"
           : "border-neutral-700 bg-neutral-800",
       )}
     >
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-4 2xl:mb-8">
         <Typography variant="h4" className="min-w-20">
           {plan.name}
         </Typography>
@@ -33,10 +33,10 @@ export const SubscriptionCard = ({ isActive, plan }: SubscriptionPlanProps) => {
         )}
       </div>
 
-      <Typography variant="h1" className="text-[48px]">
+      <Typography variant="h1" className="text-[36px] 2xl:text-[48px]">
         {plan.price}$/mo
       </Typography>
-      <Typography className="text-sm text-neutral-400 my-4">
+      <Typography className="text-sm text-neutral-400 my-2 2xl:my-4">
         Annual, billed monthly
       </Typography>
       <Typography className="text-sm">
@@ -48,7 +48,9 @@ export const SubscriptionCard = ({ isActive, plan }: SubscriptionPlanProps) => {
         <div className="w-3.5 h-3.5">
           <Icon name="Delete" />
         </div>
-        <Typography className="text-sm my-4">Secure transaction</Typography>
+        <Typography className="text-sm my-2 2xl:my-4">
+          Secure transaction
+        </Typography>
       </div>
       {isActive && (
         <Button variant={"secondary"} className="w-full duration-300">

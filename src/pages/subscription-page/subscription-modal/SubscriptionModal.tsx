@@ -37,21 +37,21 @@ export const SubscriptionModal = () => {
   }, [api]);
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4">
+    <div className="w-full max-w-4xl 2xl:max-w-6xl mx-auto px-4">
       <Carousel
         setApi={setApi}
         opts={{
           align: "center",
-          loop: false,
+          loop: true,
           startIndex: 1,
         }}
         className="w-full"
       >
-        <CarouselContent className="-ml-4 flex flex-row items-center">
+        <CarouselContent className="-ml-2 2xl:-ml-4 flex flex-row items-center">
           {plans.map((plan, index) => (
             <CarouselItem
               key={plan.id}
-              className="pl-4 md:basis-1/3 lg:basis-1/3 transition-all duration-300"
+              className="pl-2 2xl:pl-4 md:basis-1/3 lg:basis-1/3 transition-all duration-300"
             >
               <div className={`transform transition-transform duration-500 `}>
                 <SubscriptionCard

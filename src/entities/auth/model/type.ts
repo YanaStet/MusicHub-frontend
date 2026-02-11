@@ -9,3 +9,10 @@ export type RegisterRequest = {
   email: string;
   password: string;
 };
+
+export type UpdateProfileRequest = {
+  firstName: string;
+  lastName: string;
+  bio?: string;
+  avatar?: File;
+};
