@@ -120,7 +120,7 @@ export const Filters = ({ setNoteParams }: FiltersProps) => {
         contentRefSize.current.scrollHeight > COLLAPSED_HEIGHT;
       setShowSizeToggle(isOverflowing);
     }
-  }, [size]);
+  }, [sizes]);
 
   useLayoutEffect(() => {
     if (contentRefTag.current) {
@@ -128,7 +128,7 @@ export const Filters = ({ setNoteParams }: FiltersProps) => {
         contentRefTag.current.scrollHeight > COLLAPSED_HEIGHT;
       setShowTagToggle(isOverflowing);
     }
-  }, [tag]);
+  }, [tags]);
 
   return (
     <div className="w-60 2xl:w-80">

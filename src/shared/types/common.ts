@@ -17,3 +17,8 @@ export type Params = {
   page: number;
   limit: number;
 };
+
+export type Error = {
+  status: string;
+  message: string;
+};

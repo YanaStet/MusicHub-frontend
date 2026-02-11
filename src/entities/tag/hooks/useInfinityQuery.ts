@@ -13,7 +13,6 @@ export const useTagsInfinityQuery = (params: Params) => {
   >({
     queryKey: [TAG_CONSTANTS.GET_INFINITY_QUERY, params],
     queryFn: async ({ pageParam = 1 }) => {
-      console.log("fetch hook tag");
       const response = await tagService.getTags({
         ...params,
         page: pageParam,

@@ -6,7 +6,7 @@ import type {
 } from "@/shared/types/common";
 import type { File } from "react-pdf/dist/shared/types.js";
 
-type Difficulty = "Hard" | "Medium" | "Easy";
+export type Difficulty = "hard" | "medium" | "easy";
 
 export type Note = {
   id: number;
@@ -57,4 +57,13 @@ export type CreateNoteRequest = {
   pdf: File;
   audio: File;
   cover: File;
+  difficulty: Difficulty;
+  description?: string;
+};
+
+export type UpdateNoteRequest = {
+  id: number;
+  title: string;
+  description?: string;
+  tagsIds: number[];
 };

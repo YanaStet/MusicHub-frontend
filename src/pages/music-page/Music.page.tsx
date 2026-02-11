@@ -3,7 +3,7 @@ import { Typography } from "@/shared/shadcn-ui/typography";
 import { ROUTE_PATHS } from "@/shared/utils/routes";
 import clsx from "clsx";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { generatePath, Link, useParams } from "react-router-dom";
 import type { TagDisplay } from "../home-page/filters/Filters";
 import { Badge } from "../home-page/filters/Badge";
 import PdfViewer from "../../shared/custom-ui/PdfViewer";
@@ -29,7 +29,7 @@ export const MusicPage = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const isLaptop = useMediaQuery({ maxWidth: 1439 });
+  const isLaptop = useMediaQuery({ maxWidth: 1440 });
 
   const { id } = useParams();
 
@@ -120,7 +120,7 @@ export const MusicPage = () => {
   }, [note]);
 
   return (
-    <div className="px-25 py-10 flex flex-col gap-4">
+    <div className="px-10 2xl:px-25 py-10 flex flex-col gap-4">
       {isNoteLoading ? (
         <div>
           <Loader />
@@ -128,7 +128,7 @@ export const MusicPage = () => {
       ) : (
         <>
           <div className="flex gap-10">
-            <div className="w-60 2xl:w-80">
+            <div className="w-70 2xl:w-80">
               <Typography variant="h2">{note?.data.title}</Typography>
 
               <div className="relative my-8">
@@ -178,7 +178,9 @@ export const MusicPage = () => {
               </div>
 
               <Link
-                to={ROUTE_PATHS.PROFILE}
+                to={generatePath(ROUTE_PATHS.PROFILE, {
+                  id: note?.data.author.id,
+                })}
                 className="text-neutral-400 text-sm"
               >
                 Uploaded by{" "}

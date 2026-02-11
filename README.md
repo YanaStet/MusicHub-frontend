@@ -1,73 +1,100 @@
-# React + TypeScript + Vite
+MusicHub Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for discovering, sharing, and interacting with musical notes and compositions. Built with React, Vite, and a strong focus on a great user experience.
 
-Currently, two official plugins are available:
+<img width="1870" height="956" alt="image" src="https://github.com/user-attachments/assets/4a538ded-ca49-4efc-8f50-b8379e53bc8f" />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+A brief caption for the screenshot.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+✨ Features
 
-## Expanding the ESLint configuration
+- User Authentication: Secure sign-up and login functionality.
+- Profile Management: Users can view and edit their profiles.
+- Music Note Management: Create, Read, Update, and Delete (CRUD) musical notes.
+- Interactive UI: A modern, responsive interface built with shadcn/ui.
+- Efficient Data Fetching: Utilizes TanStack Query for robust server-state management.
+- File Uploads: Integrated with Cloudinary for handling image and PDF uploads.
+- Advanced Filtering: Easily find notes by tags, time signatures, and more.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+🛠️ Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Framework: React (https://reactjs.org/)
+- Build Tool: Vite (https://vitejs.dev/)
+- Language: TypeScript (https://www.typescriptlang.org/)
+- Styling: Tailwind CSS (https://tailwindcss.com/) (via shadcn/ui)
+- UI Components: shadcn/ui (https://ui.shadcn.com/)
+- State Management: TanStack Query (https://tanstack.com/query/latest) for server state
+- Routing: React Router DOM (https://reactrouter.com/)
+- Linting: ESLint (https://eslint.org/)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+🚀 Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Prerequisites
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Node.js (https://nodejs.org/) (v18 or newer recommended)
+- npm (https://www.npmjs.com/) (or your package manager of choice)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Installation
+
+1.  Clone the repository:
+    - git clone https://github.com/your-username/musichub-frontend.git
+    - cd musichub-frontend
+
+2.  Install dependencies:
+    - npm install
+
+3.  Set up environment variables:
+    - Create a .env file in the root of the project and add the necessary environment variables. You can use the .env.example (if you create one) as a template.
+
+1.  Base URL for the backend
+    - API VITE_API_BASE_URL=http://localhost:5000/api
+      
+2.  Cloudinary credentials for file uploads  
+    - VITE_CLOUDINARY_CLOUD_NAME=<YOUR_CLOUD_NAME>
+    - VITE_CLOUDINARY_API_KEY=<YOUR_API_KEY>  
+    - VITE_CLOUDINARY_API_SECRET=<YOUR_API_SECRET>
+
+Running the Application
+
+To start the development server, run:
+
+- npm run dev
+
+The application will be available at http://localhost:5173 (or another port if 5173 is busy).
+
+📜 Available Scripts
+
+In the project directory, you can run:
+
+- npm run dev: Runs the app in development mode.
+- npm run build: Builds the app for production to the dist folder.
+- npm run lint: Lints the project files using ESLint.
+- npm run preview: Serves the production build locally to preview it.
+- node scripts/generate-icons.cjs: A custom script to process and generate icon components.
+
+📂 Folder Structure
+
+The project follows a feature-sliced design methodology to keep the codebase organized and scalable.
+
+    1 src/
+    2 ├── app/         # Global app setup (Router, Layouts, main entry)
+    3 ├── entities/    # Business entities (e.g., Note, Tag) - models, API, hooks
+    4 ├── features/    # Pieces of business logic (e.g., Header with auth state)
+    5 ├── lib/         # Low-level utility functions, framework agnostic
+    6 ├── pages/       # Application pages, composed of features and entities
+    7 └── shared/      # Reusable code used across the project (UI kits, assets, utils)
+    8     ├── api/     # Base API setup (e.g., Axios instance)
+    9     ├── assets/  # SVGs, images, etc.
+    10    ├── custom-ui/# Custom-built UI components
+    11    ├── hooks/ # Global reusable hooks
+    12    ├── shadcn-ui/# Auto-generated shadcn components
+    13    └── utils/ # Shared utility functions
+
+📄 License
+
+This project is licensed under the MIT License - see the LICENSE.md (LICENSE.md) file for details.
+
+---

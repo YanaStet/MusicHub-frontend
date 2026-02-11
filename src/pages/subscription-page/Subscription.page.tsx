@@ -1,3 +1,9 @@
+import { SubscriptionModal } from "./subscription-modal/SubscriptionModal";
+
 export const SubscriptionPage = () => {
-  return <div>Subscription Page</div>;
+  return (
+    <div>
+      <SubscriptionModal />
+    </div>
+  );
 };
