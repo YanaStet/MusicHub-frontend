@@ -42,13 +42,13 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
 
     return (
       <Card
-        className="bg-neutral-800 border-neutral-700 rounded-lg flex flex-col cursor-pointer duration-75 h-min"
+        className="w-55 2xl:w-79 bg-neutral-800 border-neutral-700 rounded-lg flex flex-col cursor-pointer duration-75 h-min"
         onClick={handleClick}
         ref={ref}
       >
         <div className="flex justify-between px-4">
           <CardHeader className="text-white w-35 2xl:w-48">
-            <CardTitle>{music.title}</CardTitle>
+            <CardTitle className="max-w-full truncate">{music.title}</CardTitle>
             <CardDescription className="max-w-full truncate">
               {music.description}
             </CardDescription>
@@ -87,7 +87,7 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
             className="object-cover w-full h-full"
           />
         </div>
-        <div className="px-4 flex flex-wrap gap-2">
+        <div className="px-4 flex flex-row overflow-x-auto gap-2 max-w-full custom-scrollbar py-2">
           {music.tags.map((tag) => (
             <Badge
               variant="outline"

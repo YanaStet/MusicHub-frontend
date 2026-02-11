@@ -10,13 +10,18 @@ type SubscriptionPlanProps = {
     price: number;
     name: string;
   };
+  setOpen: (open: boolean) => void;
 };
 
-export const SubscriptionCard = ({ isActive, plan }: SubscriptionPlanProps) => {
+export const SubscriptionCard = ({
+  isActive,
+  plan,
+  setOpen,
+}: SubscriptionPlanProps) => {
   return (
     <div
       className={clsx(
-        "p-4 rounded-lg border w-65 2xl:w-88",
+        "p-4 rounded-lg border w-65 2xl:w-88 duration-300 ",
         isActive
           ? "bg-neutral-700 border-neutral-500"
           : "border-neutral-700 bg-neutral-800",
@@ -27,7 +32,12 @@ export const SubscriptionCard = ({ isActive, plan }: SubscriptionPlanProps) => {
           {plan.name}
         </Typography>
         {isActive && (
-          <Button className="text-white" variant="ghost" size="xs">
+          <Button
+            className="text-white"
+            variant="ghost"
+            size="xs"
+            onClick={() => setOpen(false)}
+          >
             <Icon name="Cross" />
           </Button>
         )}

@@ -61,6 +61,10 @@ class NoteService {
     );
     return data;
   }
+  async viewNote(id: number): Promise<{}> {
+    const data = await api.post<{}, {}>(`/songs/${id}/view`, {});
+    return data;
+  }
 }
 
 export const noteService = new NoteService();

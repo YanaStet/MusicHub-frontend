@@ -36,7 +36,8 @@ export const InfinityList = <TData,>({
         }
       },
       {
-        threshold: 1.0,
+        threshold: 0,
+        rootMargin: "300px",
       },
     );
 
@@ -57,7 +58,7 @@ export const InfinityList = <TData,>({
       >
         {children}
       </div>
-      <div ref={sentinelRef} />
+      <div ref={sentinelRef} className="h-px" />
       {isFetchingNextPage && <Loader />}
     </div>
   );

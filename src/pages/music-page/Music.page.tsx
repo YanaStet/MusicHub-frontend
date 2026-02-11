@@ -15,6 +15,9 @@ import { noteHooks } from "@/entities/note/hooks";
 import { Loader } from "@/shared/custom-ui/Loader";
 import { useMediaQuery } from "react-responsive";
 import { showToast } from "@/shared/utils/showToast";
+import { handleApiError } from "@/shared/utils/handleApiError";
+import { NOTE_CONSTANTS } from "@/entities/note/model";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const MusicPage = () => {
   const [audioError, setAudioError] = useState(false);
@@ -28,6 +31,7 @@ export const MusicPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [viewed, setViewed] = useState(false);
 
   const isLaptop = useMediaQuery({ maxWidth: 1440 });
 
@@ -36,6 +40,8 @@ export const MusicPage = () => {
   const { data: note, isLoading: isNoteLoading } = noteHooks.useNoteByIdQuery(
     id || "",
   );
+
+  const { mutate: viewNote } = noteHooks.useViewNoteMutation();
 
   const { data: similar, isLoading: isSimilarLoading } =
     noteHooks.usePaginatedNoteQuery({
@@ -46,6 +52,8 @@ export const MusicPage = () => {
       tagsIds: note?.data.tags.map((t) => t.id) || [],
       timeSignaturesIds: [],
     });
+
+  const queryClient = useQueryClient();
 
   const COLLAPSED_HEIGHT = 160;
 
@@ -107,6 +115,20 @@ export const MusicPage = () => {
   useEffect(() => {
     setAudioError(false);
   }, [note?.data.audioUrl]);
+
+  useEffect(() => {
+    if (note?.data.id && !viewed) {
+      viewNote(note.data.id, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [NOTE_CONSTANTS.GET_NOTE_BY_ID],
+          });
+        },
+        onError: (er) => handleApiError(er),
+      });
+      setViewed(true);
+    }
+  }, [note]);
 
   const remainingTime = duration - currentTime;
   const tagsDisplay: TagDisplay[] = useMemo(() => {
