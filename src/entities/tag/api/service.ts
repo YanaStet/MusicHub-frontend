@@ -5,7 +5,6 @@ import { buildQueryParams } from "@/shared/utils/query";
 
 class TagService {
   async getTags(params: Params): Promise<TagPaginated> {
-    console.log("fetchTags");
     const data = await api.get<TagPaginated>(
       `/tags?${buildQueryParams(params)}`,
     );

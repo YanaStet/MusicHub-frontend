@@ -105,7 +105,6 @@ export const EditNoteModal = ({
       });
       setSelectedTags(prevValues.tags);
     }
-    console.log(prevValues);
   }, [prevValues]);
 
   const allTags = tags?.pages.flatMap((page) => page.data) || [];

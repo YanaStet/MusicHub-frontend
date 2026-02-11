@@ -87,7 +87,9 @@ export const MyProfilePage = () => {
       <div className="flex flex-col gap-8 2xl:w-80 w-70">
         <Avatar className="w-16 h-16">
           <AvatarImage src={me?.avatar || undefined} />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>
+            {me?.firstName[0]} {me?.lastName[0]}
+          </AvatarFallback>
         </Avatar>
         <Typography variant="h1">
           {me?.firstName} {me?.lastName}

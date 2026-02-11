@@ -52,12 +52,17 @@ export const Header = () => {
           <DropdownMenuTrigger>
             <Avatar>
               <AvatarImage src={me?.avatar || undefined} />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>
+                {me?.firstName[0]} {me?.lastName[0]}
+              </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-neutral-700 border-neutral-700 text-white">
             <Link to={ROUTE_PATHS.MY_PROFILE}>
               <DropdownMenuItem>Profile</DropdownMenuItem>
+            </Link>
+            <Link to={ROUTE_PATHS.SUBSCRIPTION}>
+              <DropdownMenuItem>Subscription Plans</DropdownMenuItem>
             </Link>
             <DropdownMenuItem onClick={handleLogout} disabled={isPending}>
               Log Out
