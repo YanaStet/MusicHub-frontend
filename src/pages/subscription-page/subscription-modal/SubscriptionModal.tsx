@@ -60,12 +60,12 @@ export const SubscriptionModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="text-white max-w-[95vw] w-full bg-transparent border-none shadow-none flex items-center justify-center p-0 [&>button]:hidden">
+      <DialogContent className="text-white max-w-[95vw] 2xl:max-w-dvw w-full bg-transparent border-none shadow-none flex items-center justify-center p-0 [&>button]:hidden">
         <div className="flex flex-row gap-0 items-center justify-center w-min">
           <Button onClick={handlePrev} className="bg-neutral-800 rounded-full">
             <Icon name="Arrow" className="rotate-270" />
           </Button>
-          <div className="w-full max-w-240 2xl:max-w-6xl mx-auto px-16">
+          <div className="w-full max-w-240 2xl:max-w-7xl mx-auto px-16">
             <Carousel
               setApi={setApi}
               opts={{

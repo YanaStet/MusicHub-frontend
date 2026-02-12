@@ -3,6 +3,7 @@ import Arrow from "./svg/arrow.svg?react";
 import Comment from "./svg/comment.svg?react";
 import CrossOutlined from "./svg/cross-outlined.svg?react";
 import Cross from "./svg/cross.svg?react";
+import Crown from "./svg/crown.svg?react";
 import Delete from "./svg/delete.svg?react";
 import Eye from "./svg/eye.svg?react";
 import HalfStar from "./svg/half-star.svg?react";
@@ -24,6 +25,7 @@ export const Icons = {
   Comment,
   CrossOutlined,
   Cross,
+  Crown,
   Delete,
   Eye,
   HalfStar,

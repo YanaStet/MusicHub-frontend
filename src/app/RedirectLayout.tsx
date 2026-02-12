@@ -25,7 +25,7 @@ export const RedirectLayout = () => {
   return (
     <>
       {isLoading ? (
-        <div>
+        <div className="min-h-dvh min-w-dvh flex justify-center items-center bg-neutral-900">
           <Loader />
         </div>
       ) : (

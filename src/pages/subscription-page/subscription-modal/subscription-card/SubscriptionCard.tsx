@@ -21,7 +21,7 @@ export const SubscriptionCard = ({
   return (
     <div
       className={clsx(
-        "p-4 rounded-lg border w-65 2xl:w-88 duration-300 ",
+        "p-4 rounded-lg border w-65 2xl:w-88 duration-300",
         isActive
           ? "bg-neutral-700 border-neutral-500"
           : "border-neutral-700 bg-neutral-800",

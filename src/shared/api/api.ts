@@ -75,6 +75,36 @@ class Api {
   public delete<T>(endpoint: string, headers?: HeadersInit): Promise<T> {
     return this.request<T>(endpoint, "DELETE", undefined, headers);
   }
+
+  public async getBlob(
+    endpoint: string,
+    headers: HeadersInit = {},
+  ): Promise<Blob> {
+    const config: RequestInit = {
+      method: "GET",
+      headers: { ...headers },
+      credentials: "include",
+    };
+
+    try {
+      const response = await fetch(`${this.baseUrl}${endpoint}`, config);
+
+      if (response.status === 401) {
+        console.warn("User unauthorized");
+      }
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        const errorMessage = errorData?.message || response.statusText;
+        throw new Error(`API Error: ${response.status} ${errorMessage}`);
+      }
+
+      return await response.blob();
+    } catch (error) {
+      console.error("Fetch blob error:", error);
+      throw error;
+    }
+  }
 }
 
 export const api = new Api();

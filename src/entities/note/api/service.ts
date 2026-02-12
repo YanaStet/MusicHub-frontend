@@ -65,6 +65,24 @@ class NoteService {
     const data = await api.post<{}, {}>(`/songs/${id}/view`, {});
     return data;
   }
+  async likeNote(id: number): Promise<{}> {
+    const data = await api.post<{}, {}>(`/songs/${id}/like`, {});
+    return data;
+  }
+  async downloadNote(id: number, title: string = "note"): Promise<void> {
+    const blob = await api.getBlob(`/songs/${id}/download`);
+
+    const downloadUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = `${title}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+
+    link.remove();
+    window.URL.revokeObjectURL(downloadUrl);
+  }
 }
 
 export const noteService = new NoteService();

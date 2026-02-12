@@ -18,6 +18,7 @@ import { showToast } from "@/shared/utils/showToast";
 import { handleApiError } from "@/shared/utils/handleApiError";
 import { NOTE_CONSTANTS } from "@/entities/note/model";
 import { useQueryClient } from "@tanstack/react-query";
+import { Spinner } from "@/shared/shadcn-ui/spinner";
 
 export const MusicPage = () => {
   const [audioError, setAudioError] = useState(false);
@@ -42,6 +43,9 @@ export const MusicPage = () => {
   );
 
   const { mutate: viewNote } = noteHooks.useViewNoteMutation();
+  const { mutate: likeNote } = noteHooks.useLikeNoteMutation();
+  const { mutate: downloadNote, isPending: isDownloadPending } =
+    noteHooks.useDownloadNoteMutation();
 
   const { data: similar, isLoading: isSimilarLoading } =
     noteHooks.usePaginatedNoteQuery({
@@ -95,6 +99,33 @@ export const MusicPage = () => {
     if (audio) {
       audio.currentTime = value[0];
       setCurrentTime(value[0]);
+    }
+  };
+
+  const handleLikeNote = () => {
+    if (note?.data.id) {
+      likeNote(note?.data.id, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [NOTE_CONSTANTS.GET_NOTE_BY_ID],
+          });
+        },
+        onError: (er) => handleApiError(er),
+      });
+    }
+  };
+
+  const handleDownloadNote = () => {
+    if (note?.data.id) {
+      downloadNote(
+        { id: note.data.id, title: note.data.title },
+        {
+          onSuccess: () => {
+            showToast("success", "Note was downloaded successfuly");
+          },
+          onError: (er) => handleApiError(er),
+        },
+      );
     }
   };
 
@@ -262,11 +293,18 @@ export const MusicPage = () => {
                     variant="default"
                     className="bg-white text-black rounded-full hover:bg-neutral-400"
                     size="lg"
+                    disabled={isDownloadPending}
+                    onClick={handleDownloadNote}
                   >
                     Download
+                    {isDownloadPending && <Spinner />}
                   </Button>
                   <div className="w-6 h-6">
-                    <Icon name="Heart" />
+                    <Icon
+                      name="Heart"
+                      className="cursor-pointer"
+                      onClick={handleLikeNote}
+                    />
                   </div>
                   <div className="flex gap-1 text-neutral-400">
                     <div className="w-5">

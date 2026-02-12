@@ -87,7 +87,7 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
             className="object-cover w-full h-full"
           />
         </div>
-        <div className="px-4 flex flex-row overflow-x-auto gap-2 max-w-full custom-scrollbar py-2">
+        <div className="px-4 flex flex-row overflow-x-auto gap-2 max-w-full custom-scrollbar mx-4 py-2">
           {music.tags.map((tag) => (
             <Badge
               variant="outline"
