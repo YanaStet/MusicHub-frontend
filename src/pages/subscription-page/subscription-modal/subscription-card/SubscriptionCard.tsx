@@ -1,15 +1,16 @@
+import { subscriptionHooks } from "@/entities/subscriptions/hooks";
+import type { Subscription } from "@/entities/subscriptions/model";
 import { Button } from "@/shared/shadcn-ui/button";
 import { Icon } from "@/shared/shadcn-ui/icon";
+import { Spinner } from "@/shared/shadcn-ui/spinner";
 import { Typography } from "@/shared/shadcn-ui/typography";
+import { handleApiError } from "@/shared/utils/handleApiError";
+import { showToast } from "@/shared/utils/showToast";
 import clsx from "clsx";
 
 type SubscriptionPlanProps = {
   isActive?: boolean;
-  plan: {
-    id: string;
-    price: number;
-    name: string;
-  };
+  plan: Subscription;
   setOpen: (open: boolean) => void;
 };
 
@@ -18,6 +19,20 @@ export const SubscriptionCard = ({
   plan,
   setOpen,
 }: SubscriptionPlanProps) => {
+  const { mutate, isPending } = subscriptionHooks.useBuySubscriptionMutation();
+
+  const handleBuySubscription = () => {
+    mutate(
+      {},
+      {
+        onSuccess: () => {
+          showToast("success", "Subscription was oformed");
+        },
+        onError: (er) => handleApiError(er),
+      },
+    );
+  };
+
   return (
     <div
       className={clsx(
@@ -63,8 +78,14 @@ export const SubscriptionCard = ({
         </Typography>
       </div>
       {isActive && (
-        <Button variant={"secondary"} className="w-full duration-300">
+        <Button
+          variant={"secondary"}
+          className="w-full duration-300"
+          disabled={isPending}
+          onClick={handleBuySubscription}
+        >
           Select
+          {isPending && <Spinner />}
         </Button>
       )}
     </div>
