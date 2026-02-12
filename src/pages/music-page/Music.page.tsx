@@ -300,11 +300,19 @@ export const MusicPage = () => {
                     {isDownloadPending && <Spinner />}
                   </Button>
                   <div className="w-6 h-6">
-                    <Icon
-                      name="Heart"
-                      className="cursor-pointer"
-                      onClick={handleLikeNote}
-                    />
+                    {note?.data.favourite ? (
+                      <Icon
+                        name="HeartFilled"
+                        className="cursor-pointer"
+                        onClick={handleLikeNote}
+                      />
+                    ) : (
+                      <Icon
+                        name="Heart"
+                        className="cursor-pointer"
+                        onClick={handleLikeNote}
+                      />
+                    )}
                   </div>
                   <div className="flex gap-1 text-neutral-400">
                     <div className="w-5">

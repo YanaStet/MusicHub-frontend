@@ -28,6 +28,7 @@ export type Note = {
     id: number;
   };
   tags: Tag[];
+  favourite: boolean;
 };
 
 export type NotePaginatedResponse = PaginatedData<Note>;

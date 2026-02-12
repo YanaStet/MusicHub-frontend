@@ -6,23 +6,23 @@ import { useEffect, useRef } from "react";
 import { Loader } from "./Loader";
 import clsx from "clsx";
 
-type InfinityListProps<TData> = {
+type InfinityListProps<TData, TError = unknown> = {
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   children: React.ReactNode;
   fetchNextPage: (
-    options?: FetchNextPageOptions | undefined,
-  ) => Promise<InfiniteQueryObserverResult<TData, Error>>;
+    options?: FetchNextPageOptions,
+  ) => Promise<InfiniteQueryObserverResult<TData, TError>>;
   className?: string;
 };
 
-export const InfinityList = <TData,>({
+export const InfinityList = <TData, TError = unknown>({
   hasNextPage,
   isFetchingNextPage,
   fetchNextPage,
   children,
   className,
-}: InfinityListProps<TData>) => {
+}: InfinityListProps<TData, TError>) => {
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export const InfinityList = <TData,>({
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div>
+    <div className="w-full">
       <div
         className={clsx(
           "flex w-full flex-wrap gap-6 justify-around",
@@ -58,7 +58,7 @@ export const InfinityList = <TData,>({
       >
         {children}
       </div>
-      <div ref={sentinelRef} className="h-px" />
+      <div ref={sentinelRef} className="h-px w-full" />
       {isFetchingNextPage && <Loader />}
     </div>
   );

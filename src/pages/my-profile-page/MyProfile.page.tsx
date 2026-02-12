@@ -15,6 +15,12 @@ import type { Note } from "@/entities/note/model";
 import { EditProfileModal } from "./edit-profile-modal/EditProfileModal";
 import { useMe } from "@/shared/store/common";
 import { authHooks } from "@/entities/auth/hooks";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/shared/shadcn-ui/tabs";
 
 export const MyProfilePage = () => {
   const [currentSearchInput, setCurrentSearchInput] = useState<string>("");
@@ -45,6 +51,21 @@ export const MyProfilePage = () => {
     timeSignaturesIds: [],
   });
   const allNotes = notes?.pages.flatMap((page) => page.data) || [];
+
+  const {
+    data: favNotes,
+    fetchNextPage: favFetchNextPage,
+    isFetchingNextPage: favIsFetchingNextPage,
+    hasNextPage: favHasNextPage,
+  } = authHooks.useMyFavouriteSongsInfinityQuery({
+    page: 1,
+    limit: 10,
+    query: searchValue,
+    sizes: [],
+    tagsIds: [],
+    timeSignaturesIds: [],
+  });
+  const allFavNotes = favNotes?.pages.flatMap((page) => page.data) || [];
 
   const COLLAPSED_HEIGHT = 360;
 
@@ -168,42 +189,100 @@ export const MyProfilePage = () => {
             Edit profile
           </Button>
         </div>
-        <Typography variant="h1" className="mb-8">
-          Uploads
-        </Typography>
-        <div className="w-full mt-8 overflow-y-auto h-[calc(100dvh-310px)] rounded-lg overflow-x-hidden">
-          {allNotes && allNotes.length === 0 && !searchValue && (
-            <Typography variant="body2" className="text-neutral-500">
-              There is no notes yet.
-            </Typography>
-          )}
-          {allNotes && allNotes.length === 0 && searchValue && (
-            <Typography variant="body2" className="text-neutral-500">
-              No notes found. Try to adjust your filters.
-            </Typography>
-          )}
-          <InfinityList
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
+
+        <Tabs defaultValue="uploads" className="w-full">
+          <TabsList
+            variant="line"
+            className="h-auto bg-transparent p-0 gap-4 border-b-0 border-none"
           >
-            {allNotes.map((note) => (
-              <MusicCard
-                music={note}
-                key={note.id}
-                isMine={true}
-                handleOpenEditModal={handleOpenEditNoteModal}
-                handleOpenDeleteModal={handleOpenAlertModal}
-                setNoteId={(id: number) => {
-                  setDeleteNoteId(id);
-                }}
-                setEditNote={(note: Note) => {
-                  setEditNote(note);
-                }}
-              />
-            ))}
-          </InfinityList>
-        </div>
+            <TabsTrigger
+              value="uploads"
+              className="text-[36px] font-bold text-neutral-400 hover:text-neutral-300  data-[state=active]:text-white data-[state=active]:bg-transparent data-[state=active]:shadow-none    
+      "
+            >
+              Uploads
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="favourite"
+              className=" text-[36px] font-bold text-neutral-400 hover:text-neutral-300  data-[state=active]:text-white data-[state=active]:bg-transparent data-[state=active]:shadow-none
+      "
+            >
+              Favourite
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="uploads">
+            <div className="w-full mt-8 overflow-y-auto h-[calc(100dvh-310px)] rounded-lg overflow-x-hidden">
+              {allNotes && allNotes.length === 0 && !searchValue && (
+                <Typography variant="body2" className="text-neutral-500">
+                  There is no notes yet.
+                </Typography>
+              )}
+              {allNotes && allNotes.length === 0 && searchValue && (
+                <Typography variant="body2" className="text-neutral-500">
+                  No notes found. Try to adjust your filters.
+                </Typography>
+              )}
+              <InfinityList
+                fetchNextPage={fetchNextPage}
+                hasNextPage={hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
+              >
+                {allNotes.map((note) => (
+                  <MusicCard
+                    music={note}
+                    key={note.id}
+                    isMine={true}
+                    handleOpenEditModal={handleOpenEditNoteModal}
+                    handleOpenDeleteModal={handleOpenAlertModal}
+                    setNoteId={(id: number) => {
+                      setDeleteNoteId(id);
+                    }}
+                    setEditNote={(note: Note) => {
+                      setEditNote(note);
+                    }}
+                  />
+                ))}
+              </InfinityList>
+            </div>
+          </TabsContent>
+          <TabsContent value="favourite">
+            <div className="w-full mt-8 overflow-y-auto h-[calc(100dvh-310px)] rounded-lg overflow-x-hidden">
+              {allFavNotes && allFavNotes.length === 0 && !searchValue && (
+                <Typography variant="body2" className="text-neutral-500">
+                  There is no notes yet.
+                </Typography>
+              )}
+              {allFavNotes && allFavNotes.length === 0 && searchValue && (
+                <Typography variant="body2" className="text-neutral-500">
+                  No notes found. Try to adjust your filters.
+                </Typography>
+              )}
+              <InfinityList
+                fetchNextPage={favFetchNextPage}
+                hasNextPage={favHasNextPage}
+                isFetchingNextPage={favIsFetchingNextPage}
+              >
+                {allFavNotes.map((note) => (
+                  <MusicCard
+                    music={note}
+                    key={note.id}
+                    isMine={false}
+                    handleOpenEditModal={handleOpenEditNoteModal}
+                    handleOpenDeleteModal={handleOpenAlertModal}
+                    setNoteId={(id: number) => {
+                      setDeleteNoteId(id);
+                    }}
+                    setEditNote={(note: Note) => {
+                      setEditNote(note);
+                    }}
+                  />
+                ))}
+              </InfinityList>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
       <CreateNoteModal
         isOpen={isCreateNoteModalOpen}

@@ -69,19 +69,33 @@ class NoteService {
     const data = await api.post<{}, {}>(`/songs/${id}/like`, {});
     return data;
   }
-  async downloadNote(id: number, title: string = "note"): Promise<void> {
-    const blob = await api.getBlob(`/songs/${id}/download`);
+  async downloadNote(id: number, title: string): Promise<void> {
+    try {
+      const { downloadUrl } = await api.get<{ downloadUrl: string }>(
+        `/songs/${id}/download`,
+      );
 
-    const downloadUrl = window.URL.createObjectURL(blob);
+      const response = await fetch(downloadUrl);
 
-    const link = document.createElement("a");
-    link.href = downloadUrl;
-    link.download = `${title}.pdf`;
-    document.body.appendChild(link);
-    link.click();
+      if (!response.ok) throw new Error("Failed to fetch file from cloud");
 
-    link.remove();
-    window.URL.revokeObjectURL(downloadUrl);
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+
+      const safeTitle = title.replace(/\s+/g, "_");
+      link.setAttribute("download", `${safeTitle}.pdf`);
+
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
   }
 }
 

@@ -7,6 +7,7 @@ import type {
   RegisterRequest,
   UpdateProfileRequest,
 } from "../model";
+import type { Params } from "@/shared/types/common";
 
 class AuthService {
   async login(body: LoginRequest): Promise<Composer> {
@@ -45,6 +46,13 @@ class AuthService {
       formData.append("avatar", body.avatar as Blob);
     }
     const data = await api.put<Composer, FormData>("/me", formData);
+    return data;
+  }
+
+  async myFavouriteSongs(params: Params): Promise<NotePaginatedResponse> {
+    const data = await api.get<NotePaginatedResponse>(
+      `/my-favorite-songs?${buildQueryParams(params)}`,
+    );
     return data;
   }
 }

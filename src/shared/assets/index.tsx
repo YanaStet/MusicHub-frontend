@@ -9,6 +9,7 @@ import Eye from "./svg/eye.svg?react";
 import HalfStar from "./svg/half-star.svg?react";
 import Hamburger from "./svg/hamburger.svg?react";
 import Heart from "./svg/heart.svg?react";
+import HeartFilled from "./svg/heartFilled.svg?react";
 import Logo from "./svg/logo.svg?react";
 import LongArrow from "./svg/long-arrow.svg?react";
 import Pen from "./svg/pen.svg?react";
@@ -31,6 +32,7 @@ export const Icons = {
   HalfStar,
   Hamburger,
   Heart,
+  HeartFilled,
   Logo,
   LongArrow,
   Pen,
