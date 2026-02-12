@@ -44,9 +44,12 @@ export const Header = () => {
       </div>
       <div className="text-white flex gap-10 items-center">
         <Link to={ROUTE_PATHS.MY_PROFILE}>Sell</Link>
-        <Button variant="secondary" size="lg" className="rounded-full">
-          Upgrade
-        </Button>
+
+        <Link to={ROUTE_PATHS.SUBSCRIPTION}>
+          <Button variant="secondary" size="lg" className="rounded-full">
+            Upgrade
+          </Button>
+        </Link>
 
         <DropdownMenu>
           <DropdownMenuTrigger>

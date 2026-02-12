@@ -71,7 +71,7 @@ export const SubscriptionCard = ({
       </Typography>
       <div className="flex gap-2 text-neutral-400 items-center">
         <div className="w-3.5 h-3.5">
-          <Icon name="Delete" />
+          <Icon name="Lock" />
         </div>
         <Typography className="text-sm my-2 2xl:my-4">
           Secure transaction

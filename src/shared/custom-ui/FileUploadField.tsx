@@ -39,11 +39,11 @@ export const FileUploadField = ({
 
   if (value) {
     return (
-      <div>
+      <div className="max-w-full min-w-0">
         <div className="relative flex items-center p-4 border rounded-lg bg-green-50 border-green-200 gap-3 h-21">
           <div className="w-4 h-5 text-green-300 mb-2">{icon}</div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
+            <p className="text-sm font-medium text-gray-900 truncate w-full">
               {value.name}
             </p>
             <p className="text-xs text-gray-500">

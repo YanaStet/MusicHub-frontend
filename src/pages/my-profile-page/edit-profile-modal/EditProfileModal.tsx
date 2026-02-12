@@ -20,6 +20,7 @@ import { handleApiError } from "@/shared/utils/handleApiError";
 import { Spinner } from "@/shared/shadcn-ui/spinner";
 import { useQueryClient } from "@tanstack/react-query";
 import { AUTH_CONSTANTS } from "@/entities/auth/model";
+import { useMe } from "@/shared/store/common";
 
 type EditProfileModalProps = {
   open: boolean;
@@ -27,9 +28,16 @@ type EditProfileModalProps = {
 };
 
 export const EditProfileModal = ({ open, setOpen }: EditProfileModalProps) => {
+  const { me } = useMe();
+
   const form = useForm<EditProfileSchema>({
     resolver: zodResolver(editProfileSchema),
     mode: "onSubmit",
+    defaultValues: {
+      firstName: me?.firstName,
+      lastName: me?.lastName,
+      bio: me?.bio || undefined,
+    },
   });
 
   const queryClient = useQueryClient();
@@ -62,7 +70,7 @@ export const EditProfileModal = ({ open, setOpen }: EditProfileModalProps) => {
         <DialogTitle>Edit profile</DialogTitle>
         <form
           {...form}
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-4 max-w-full overflow-hidden"
           onSubmit={form.handleSubmit(handleSubmit)}
         >
           <Controller

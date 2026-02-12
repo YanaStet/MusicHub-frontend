@@ -67,7 +67,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ fileUrl }) => {
 
               <Input
                 type="number"
-                className="w-12 text-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-12 text-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none bg-white"
                 value={inputPage}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
