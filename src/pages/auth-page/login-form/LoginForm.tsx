@@ -50,7 +50,7 @@ export const LoginForm = ({ setDisplayRegister }: LoginFormProps) => {
   };
 
   const handleLogin = () => {
-    window.location.href = "http://localhost:34/auth/google";
+    window.location.href = "http://localhost:264/auth/google";
   };
 
   return (
