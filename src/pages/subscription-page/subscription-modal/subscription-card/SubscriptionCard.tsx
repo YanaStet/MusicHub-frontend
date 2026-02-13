@@ -64,11 +64,7 @@ export const SubscriptionCard = ({
       <Typography className="text-sm text-neutral-400 my-2 2xl:my-4">
         Annual, billed monthly
       </Typography>
-      <Typography className="text-sm">
-        Get 20+ apps, including Photoshop, Illustrator, Premiere, and Acrobat
-        Pro, plus Adobe Firefly standard and premium creative AI features for
-        images, video, and audio.
-      </Typography>
+      <Typography className="text-sm">{plan.description}</Typography>
       <div className="flex gap-2 text-neutral-400 items-center">
         <div className="w-3.5 h-3.5">
           <Icon name="Lock" />

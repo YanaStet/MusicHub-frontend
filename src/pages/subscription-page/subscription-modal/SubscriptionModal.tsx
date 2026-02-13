@@ -60,7 +60,7 @@ export const SubscriptionModal = ({
           <div className="w-full">
             <Loader />
           </div>
-        ) : plans && plans.length > 0 ? (
+        ) : plans?.data && plans.data.length > 0 ? (
           <div className="flex flex-row gap-0 items-center justify-center w-min">
             <Button
               onClick={handlePrev}
@@ -79,7 +79,7 @@ export const SubscriptionModal = ({
                 className="w-full"
               >
                 <CarouselContent className="-ml-2 2xl:-ml-4 flex flex-row items-center">
-                  {plans.map((plan, index) => (
+                  {plans.data.map((plan, index) => (
                     <CarouselItem
                       key={plan.id}
                       className="pl-2 2xl:pl-4 md:basis-1/3 lg:basis-1/3 transition-all duration-300"

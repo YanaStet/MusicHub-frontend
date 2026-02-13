@@ -1,9 +1,9 @@
 import { api } from "@/shared/api/api";
-import type { Subscription } from "../model";
+import type { SubscriptionResponse } from "../model";
 
 class SubscriptionService {
-  async getSubscription(): Promise<Subscription[]> {
-    const data = await api.get<Subscription[]>("/subscriptions");
+  async getSubscription(): Promise<SubscriptionResponse> {
+    const data = await api.get<SubscriptionResponse>("/subscriptions");
     return data;
   }
 

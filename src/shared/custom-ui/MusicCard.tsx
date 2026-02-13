@@ -42,7 +42,7 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
 
     return (
       <Card
-        className="w-55 2xl:w-79 bg-neutral-800 border-neutral-700 rounded-lg flex flex-col cursor-pointer duration-75 h-min"
+        className="w-65 2xl:w-79 bg-neutral-800 border-neutral-700 rounded-lg flex flex-col cursor-pointer duration-75 h-min"
         onClick={handleClick}
         ref={ref}
       >
@@ -80,7 +80,7 @@ export const MusicCard = React.forwardRef<HTMLDivElement, MusicCardProps>(
             </div>
           )}
         </div>
-        <div className="w-55 h-30 2xl:w-79 2xl:h-52 overflow-y-hidden">
+        <div className="w-full h-35 2xl:w-79 2xl:h-52 overflow-y-hidden">
           <img
             src={music.coverImageUrl}
             alt="Photo"

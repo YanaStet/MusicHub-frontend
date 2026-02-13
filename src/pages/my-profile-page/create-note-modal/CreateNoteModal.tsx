@@ -181,7 +181,7 @@ export const CreateNoteModal = ({
                     onChange={field.onChange}
                     value={field.value}
                     placeholder="Type your message here."
-                    className="bg-neutral-700 text-neutral-400 border border-neutral-600"
+                    className="bg-neutral-700 text-neutral-400 border border-neutral-600 max-h-21 overflow-y-auto custom-scrollbar"
                   />
 
                   {fieldState.invalid && (
@@ -227,7 +227,7 @@ export const CreateNoteModal = ({
                     onChange={field.onChange}
                     value={field.value}
                     placeholder="Type your message here."
-                    className="bg-neutral-700 text-neutral-400 border border-neutral-600"
+                    className="bg-neutral-700 text-neutral-400 border border-neutral-600 max-h-21 overflow-y-auto custom-scrollbar"
                   />
 
                   {fieldState.invalid && (

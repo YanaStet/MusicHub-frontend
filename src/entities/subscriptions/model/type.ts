@@ -1,3 +1,5 @@
+import type { PaginatedData } from "@/shared/types/common";
+
 export type Subscription = {
   id: number;
   name: string;
@@ -6,3 +8,5 @@ export type Subscription = {
   features: {};
   description: string;
 };
+
+export type SubscriptionResponse = PaginatedData<Subscription>;

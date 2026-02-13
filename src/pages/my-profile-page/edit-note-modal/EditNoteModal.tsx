@@ -128,7 +128,7 @@ export const EditNoteModal = ({
                   onChange={field.onChange}
                   value={field.value}
                   placeholder="Don’t pee on the floor"
-                  className="bg-neutral-700 text-neutral-400 border border-neutral-600"
+                  className="bg-neutral-700 text-neutral-400 border border-neutral-600 max-h-21 overflow-y-auto custom-scrollbar"
                 />
 
                 {fieldState.invalid && (
@@ -147,7 +147,7 @@ export const EditNoteModal = ({
                   onChange={field.onChange}
                   value={field.value}
                   placeholder="Use the commodore"
-                  className="bg-neutral-700 text-neutral-400 border border-neutral-600"
+                  className="bg-neutral-700 text-neutral-400 border border-neutral-600 max-h-21 overflow-y-auto custom-scrollbar"
                 />
 
                 {fieldState.invalid && (
